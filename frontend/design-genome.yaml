@@ -1,0 +1,68 @@
+schema_version: "2.0.0"
+project: "FieldWeaver"
+created_at: "2026-10-29T19:03:44.088Z"
+
+intent:
+  theme_mode: "custom"
+  ground_tone: "#080B0D"
+  dimensionality: "2d_planar"
+  sensory_feedback:
+    web_audio_uisfx: false
+    audio_toggle: false
+
+references:
+  - url: "https://muninn-nmk.pages.dev/"
+    fetched_at: "2026-10-29T19:03:25.121Z"
+    rendered_content_detected: true
+    epistemic_status: "known"
+    extracted_principles:
+      - "Persistent product navigation connects the workbench and documentation."
+      - "System status and data provenance stay easy to scan."
+      - "Privacy information has a dedicated route."
+      - "Compact system labels sit beside readable explanatory copy."
+  - url: "https://github.com/Erebuzzz/Muninn"
+    fetched_at: "2026-10-29T19:03:27.925Z"
+    rendered_content_detected: true
+    epistemic_status: "known"
+    extracted_principles:
+      - "Architecture and data handling have dedicated documentation sections."
+      - "Privacy review is easy to find."
+      - "Ephemeral process state is distinguished from durable files."
+
+typography:
+  display:
+    family: "Space Grotesk"
+    role: "Hero headlines, section headers, smallcaps metadata"
+    epistemic_state: "known"
+  body:
+    family: "Inter"
+    role: "Editorial copy, article body, descriptions"
+    epistemic_state: "known"
+  monospace:
+    family: "IBM Plex Mono"
+    role: "Figure numbers, telemetry, code snippets"
+    epistemic_state: "known"
+  scale_ratio: "1.25"
+
+colors:
+  ground: "#080B0D"
+  primary_ink: "#F1EEE5"
+  accent: "#E9A94F"
+  border_hairline: "#2A3538"
+
+motion:
+  pacing: "Measured instrument motion with restrained transitions, no decorative looping"
+  reduced_motion: "strict_adherence"
+
+frontend_architecture:
+  framework: "Next.js App Router 16, React, TypeScript"
+  state_management: "React state"
+  forms_and_validation: "Server-validated MissionSpec API"
+  styling_system: "CSS custom properties and responsive CSS"
+
+anti_patterns_excluded:
+  - "generic_purple_gradient_backgrounds"
+  - "pointless_icon_flooding"
+  - "universal_scroll_fades"
+  - "indiscriminate_glassmorphism"
+  - "sub-4.5_contrast_ratios"
