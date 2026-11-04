@@ -161,3 +161,9 @@ All routes return a request ID header. Errors use
 - `frontend/src/`: Next.js control room, Three.js scene, and SVG fallback
 - `scripts/`: smoke test and reproducible evaluation suite
 - `docs/`: build state, decisions, evaluation protocol, prior-work boundary, demo script
+
+## Public shared-key allowance
+
+For the public deployment, a Cloudflare Worker backed by D1 atomically reserves one request before each shared Baseten attempt, with a limit of 250 per UTC day. Its access token and URL are supplied as backend environment settings; the token is not in source control. If the counter is unavailable or the allowance is exhausted, shared-key inference fails closed. Requests using a visitor-provided key do not consume this shared allowance. This limits request counts, not monetary spending. A process-local short-term request limit still applies separately. The public demo has no user authentication.
+
+The simulator checks the continuous straight-line path of each point robot against static circle and axis-aligned rectangle regions during a timestep, including a region that activates partway through the step. This is not a proof of safety for physical robots or continuously moving obstacles.

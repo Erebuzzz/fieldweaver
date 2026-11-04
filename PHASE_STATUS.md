@@ -110,3 +110,5 @@ Public frontend and Render backend deployed and verified: offline browser simula
 Swept obstacle safety checks and an agent-off matched comparison were added locally. Backend 119 tests passed; fixed evaluation 40/70, held-out 40/40, and matched agent-off quadratic 20/40 versus baseline 0/40. Results do not establish general reliability. The hosted backend does not yet include these changes.
 
 A persistent shared-key allowance of 250 model requests per UTC day was added locally and its Cloudflare counter was boundary-tested. It is a request count, not a dollar cap. Backend 124 tests and frontend build passed. Hosted backend enforcement awaits deployment and verification.
+
+Render commit edd68cf and the updated frontend are live. A live Baseten compile incremented the durable shared-key counter and an invalid BYOK attempt left it unchanged. The 250-request UTC-day limit is not a dollar cap; no authentication is provided. Meta and Fireworks live testing still needs user keys.
