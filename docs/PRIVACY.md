@@ -1,6 +1,6 @@
 # Privacy Policy
 
-Last reviewed: October 30, 2026
+Last reviewed: November 4, 2026
 
 ## Scope
 
@@ -26,9 +26,9 @@ or safety-critical information.
   Unexpected exceptions also write a stack trace. Operators should protect logs and
   generated evaluation reports.
 
-The current frontend source does not set application cookies, use browser local
-storage, or load an analytics tracker. The browser and hosting platform may still
-create technical logs outside this project.
+The frontend stores one preference in browser local storage: whether tactical audio
+is muted. It does not set application cookies or load an analytics tracker. The browser
+and hosting platform may still create technical logs outside this project.
 
 ## Live inference
 
@@ -60,5 +60,5 @@ Policy](https://www.baseten.co/data-request-policy/).
 - For a locally operated installation, direct access or deletion requests to that
   instance's operator. The project has no central user account or data store.
 
-This notice applies to the source reviewed on October 30, 2026. Revisit it if storage,
+This notice applies to the source reviewed on November 4, 2026. Revisit it if storage,
 telemetry, hosting, or provider integrations change.

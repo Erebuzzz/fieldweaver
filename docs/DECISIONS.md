@@ -92,12 +92,14 @@ server-side constrained output. A configurable flag can be added only after a li
 
 ## D010: Persist evaluation evidence as a small JSON report
 
-Decision: the evaluation suite writes `artifacts/evaluation_report.json` (ignored raw
-runs) and a compact checked-in `docs/EVALUATION_RESULTS.md` summary with the exact
-configuration, seeds, sample count, and observed metrics.
+Decision: the evaluation suite writes the full report to ignored
+`artifacts/evaluation_report.json` and the checked-in
+`frontend/public/evaluation-report.json` snapshot. The `/evaluation` page renders that
+same JSON, while `docs/EVALUATION_RESULTS.md` records the configuration and measured
+summary.
 
 Reason: UI values must match saved evaluation JSON, and claims in the README must be
-traceable. The report is generated from actual runs, not hand-entered.
+traceable. The checked-in data is generated from actual runs, not hand-entered.
 
 ## D011: No SAM integration without verified access
 
@@ -110,22 +112,23 @@ endpoint or credential is available in this environment.
 ## D012: The latest-evaluation route is process-local
 
 Decision: `GET /api/evaluations/latest` returns the latest run stored in the current
-FastAPI process. The separate paired evaluation script writes a generated JSON report
-under the ignored `artifacts/` directory.
+FastAPI process. It remains separate from the static paired report rendered by the
+`/evaluation` page.
 
 Reason: a database or report-serving layer is outside the current vertical slice. The
 API documentation must not describe the in-memory latest-run response as a persisted
 suite summary.
 
-## D013: Evaluation uses three shared fixed seeds
+## D013: Evaluation uses ten shared fixed seeds
 
 Decision: the checked-in suite compares the quadratic controller and weighted-centroid
-baseline across seven scenarios with shared seeds 42, 43, and 44. It retains every
+baseline across seven scenarios with shared seeds 42 through 51. It retains every
 failure and reports mean, median, sample standard deviation, and non-null sample count.
 
-Reason: one seed per scenario did not show any cross-seed variation. Three paired seeds
-provide a small reproducible spread estimate while keeping the local suite quick. This
-sample does not establish broad robustness.
+Reason: one seed per scenario did not show any cross-seed variation. Ten paired seeds
+provide a more useful reproducible spread estimate while keeping the local suite under
+one minute on the verified development environment. This sample does not establish
+broad robustness.
 
 ## D014: Let Baseten apply the documented completion budget
 
@@ -150,9 +153,20 @@ reasoning and the final response. The exact hackathon model ID remains
 ## D015: Use the shared shell for the not-found page
 
 Decision: render Next.js's app-wide `not-found.tsx` with the shared FieldWeaver header
-and footer, an arena route trace illustration, and direct links to the workbench and
-field guide.
+and footer, an illustrative route map, and direct links to the workbench and field guide.
 
 Reason: a lost route should preserve the existing graphite, amber, and mint visual
-language and provide a clear way back into the product. The map is decorative and does
-not imply a live simulation or backend state.
+language and provide a clear way back into the product. The map is explicitly an
+illustration and exposes no fake coordinates, local host address, or simulation state.
+
+## D016: Keep 3D visualization passive and browser-side
+
+Decision: use Three.js to render the existing run data in the browser, keep the SVG view
+available, and fall back to SVG if WebGL initialization or context fails. Do not add
+Blender, MuJoCo, or Isaac Sim to the runtime just for visual polish.
+
+Reason: the browser view improves spatial presentation without creating a second
+simulation authority. Blender remains an option for authoring exported assets. MuJoCo
+and Isaac Sim are better justified by future contact-dynamics or sensor-realism goals,
+which require their own implementation and validation. Production browser checks
+confirmed WebGL2 rendering, camera controls, the 2D view, and context-loss fallback.

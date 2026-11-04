@@ -28,13 +28,13 @@ hackathon `-1026` model is an inference.
 - A bounded event-driven agent loop. It calls the provider only after monitored events,
   applies only known actions, and records a trace. The default caps are two model calls
   and two replans per run.
-- A responsive Next.js workbench with mission review and approval, SVG arena playback,
-  trajectory metrics, provider status, agent trace, and safety log. The web app also
-  includes a dedicated `/docs` guide, `/privacy` and `/security` policies, and a
-  `/license` page, with a themed custom 404 route.
+- A responsive Next.js workbench with mission review and approval, a Three.js 3D arena,
+  an SVG 2D fallback, trajectory metrics, provider status, agent trace, and safety log.
+  The web app also includes dedicated `/docs` and `/evaluation` pages, `/privacy` and
+  `/security` policies, a `/license` page, and a themed custom 404 route.
 - A seven-scenario evaluation suite comparing the proposed controller and baseline on
-  seeds 42, 43, and 44. The saved raw report is ignored under `artifacts/`; a checked-in
-  summary is in [docs/EVALUATION_RESULTS.md](docs/EVALUATION_RESULTS.md).
+  ten shared seeds. It records 140 runs and publishes the exact JSON snapshot used by
+  the evaluation page at `frontend/public/evaluation-report.json`.
 
 This is simulation software. It does not control physical robots and does not claim a
 formal safety proof. Multiple-source missions and SAM 3.1 scene segmentation are not
@@ -74,6 +74,12 @@ The model cannot produce executable code, controller gains, routes, actuator com
 or changes to safety limits. The application maps validated action enums to deterministic
 behaviours and checks proposed motion independently. Model calls do not occur in the
 per-tick controller loop.
+
+The 3D scene renders simulation output in the browser. It does not run a second physics
+engine or change robot state. Users can switch to the SVG view; WebGL failure or context
+loss also falls back to that view. Blender, MuJoCo, and Isaac Sim are not part of the
+current runtime. Blender could be used later to author optional browser assets; MuJoCo
+or Isaac Sim would need a separate dynamics or sensor-validation goal.
 
 ## Run locally
 
@@ -148,8 +154,9 @@ rate-limit errors, timeout, and malformed responses. For setup details, see
 | `POST /api/scenes/segment` | Returns `503`; SAM integration is deferred |
 
 All API errors use a request-ID error envelope. The latest evaluation endpoint is
-process-local and is not a persistent report store. The evaluation script writes the
-ignored machine-readable suite report to `artifacts/evaluation_report.json`.
+process-local and is not the aggregate report. The `/evaluation` page displays the
+checked-in `frontend/public/evaluation-report.json`; the evaluation script writes the
+same data to that public snapshot and the ignored `artifacts/evaluation_report.json`.
 
 ## Verification commands
 
@@ -181,20 +188,22 @@ seeds; local wall-clock timings naturally vary between executions.
 
 ## Evaluation snapshot
 
-In the checked-in three-seed suite, the quadratic controller succeeded in 10 of 21
-runs and the weighted-centroid baseline succeeded in 0 of 21. The proposed controller
-terminated with `route_infeasible` in seven runs and timed out in four. All 21 baseline
-runs timed out. The seeded `disturbed_corridor` case recovered in 3 of 3 trials with the
+In the checked-in ten-seed suite, the quadratic controller succeeded in 31 of 70 runs
+and the weighted-centroid baseline succeeded in 0 of 70. The proposed controller
+terminated with `route_infeasible` in 21 runs and timed out in 18. All 70 baseline runs
+timed out. The seeded `disturbed_corridor` case recovered in 10 of 10 trials with the
 offline mock agent. These results are limited to the listed scenarios and seeds. They do
 not establish general superiority or live-agent performance. Full metrics, variation,
-and failure counts are in [docs/EVALUATION_RESULTS.md](docs/EVALUATION_RESULTS.md).
+and failure counts are in [docs/EVALUATION_RESULTS.md](docs/EVALUATION_RESULTS.md) and
+the [raw evaluation JSON](frontend/public/evaluation-report.json), also shown at
+`/evaluation`.
 
 ## Known limits
 
 - The source-localization task supports one hidden source and 3 to 8 point robots.
 - The safety filter is a geometric validator for this simulation, not a formal proof.
 - The latest-run API state is process-local; it resets when the backend restarts.
-- The evaluation sample contains three seeds for each of seven scenarios. Broader
+- The evaluation sample contains ten seeds for each of seven scenarios. Broader
   robustness and cross-platform determinism have not been established.
 - Live inference remains unverified after two generic smoke requests returned empty
   content at explicitly capped output lengths. Live latency and live agent quality have

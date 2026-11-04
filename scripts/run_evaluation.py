@@ -16,7 +16,7 @@ from app.schemas import SearchSpec, default_mission_spec  # noqa: E402
 from app.services.runner import run_scenario  # noqa: E402
 from app.simulation.scenario import get_scenario  # noqa: E402
 
-SEEDS = (42, 43, 44)
+SEEDS = tuple(range(42, 52))
 CASES = (
     ("open_field", None),
     ("noisy_open", None),
@@ -180,8 +180,13 @@ async def main() -> None:
     report = await build_report()
     output = ROOT / "artifacts" / "evaluation_report.json"
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+    snapshot = ROOT / "frontend" / "public" / "evaluation-report.json"
+    snapshot.parent.mkdir(parents=True, exist_ok=True)
+    contents = json.dumps(report, indent=2) + "\n"
+    output.write_text(contents, encoding="utf-8")
+    snapshot.write_text(contents, encoding="utf-8")
     print(f"Wrote {output.relative_to(ROOT)}")
+    print(f"Wrote {snapshot.relative_to(ROOT)}")
     for name, summary in report["controller_summary"].items():
         print(
             f"{name}: {summary['success_count']}/{summary['sample_count']} succeeded; "

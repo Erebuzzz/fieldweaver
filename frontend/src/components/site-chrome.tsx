@@ -1,11 +1,12 @@
 import Link from "next/link";
 
-type ActivePage = "workbench" | "docs" | "privacy" | "security" | "license" | "not-found";
+type ActivePage = "workbench" | "docs" | "evaluation" | "privacy" | "security" | "license" | "not-found";
 type BackendState = "connected" | "unavailable" | "connecting";
 
 const navigation = [
   { href: "/", label: "Workbench", page: "workbench" },
   { href: "/docs", label: "Guide", page: "docs" },
+  { href: "/evaluation", label: "Results", page: "evaluation" },
   { href: "/privacy", label: "Privacy", page: "privacy" },
   { href: "/security", label: "Security", page: "security" },
 ] as const;
@@ -17,7 +18,7 @@ export function SiteHeader({
 }: {
   active: ActivePage;
   backend?: BackendState;
-  provider?: "live" | "offline" | null;
+  provider?: "configured" | "offline" | null;
 }) {
   const backendLabel =
     backend === "connected"
@@ -37,7 +38,7 @@ export function SiteHeader({
           </svg>
         </span>
         <span className="brand-name">FieldWeaver</span>
-        <span className="brand-edition">SIM / 01</span>
+        <span className="brand-edition">TACTICAL SIM 01</span>
       </Link>
 
       <nav className="site-nav" aria-label="Main navigation">
@@ -57,17 +58,17 @@ export function SiteHeader({
         {backend ? (
           <span className={`signal-pill api-${backend}`}>
             <i aria-hidden="true" />
-            {backendLabel}
+            <span>{backendLabel}</span>
           </span>
         ) : (
           <span className="signal-pill local-pill">
             <i aria-hidden="true" />
-            Local simulation
+            <span>Local simulation</span>
           </span>
         )}
         {provider ? (
           <span className={`provider-pill provider-${provider}`}>
-            {provider === "live" ? "Baseten live" : "Offline mock"}
+            <span>{provider === "configured" ? "Baseten configured" : "Offline mock"}</span>
           </span>
         ) : null}
       </div>
@@ -78,9 +79,13 @@ export function SiteHeader({
 export function SiteFooter() {
   return (
     <footer className="site-footer">
-      <span className="footer-note">Simulation software. Not a physical robot controller.</span>
+      <div className="footer-meta">
+        <span className="footer-telemetry">FIELDWEAVER · AEROSPACE MISSION CONTROL</span>
+        <span className="footer-note">Simulation software only. Independent deterministic safety filter enforced.</span>
+      </div>
       <nav className="footer-links" aria-label="Policy and project links">
         <Link href="/docs">Documentation</Link>
+        <Link href="/evaluation">Evaluation</Link>
         <Link href="/privacy">Privacy</Link>
         <Link href="/security">Security</Link>
         <Link href="/license">MIT license</Link>

@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import { ArenaCanvas } from "@/components/arena-canvas";
+import { ArenaContainer } from "@/components/arena-container";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
 import { apiRequest } from "@/lib/api";
 import type {
@@ -190,13 +190,13 @@ export default function Home() {
       <SiteHeader
         active="workbench"
         backend={health ? "connected" : apiError ? "unavailable" : "connecting"}
-        provider={health ? (health.provider.configured ? "live" : "offline") : null}
+        provider={health ? (health.provider.configured ? "configured" : "offline") : null}
       />
 
       <main className="workspace-main" id="workspace">
       <div className="workspace-heading">
         <div>
-          <p className="eyebrow"><span className="eyebrow-mark" aria-hidden="true" />Swarm localization / 2D arena</p>
+          <p className="eyebrow"><span className="eyebrow-mark" aria-hidden="true" />Swarm localization · Tactical digital twin</p>
           <h1>Mission workspace</h1>
           <p className="workspace-description">
             Compile operator intent, review the bounded plan, then inspect a seeded run.
@@ -343,7 +343,7 @@ export default function Home() {
                   <strong>Validated specification</strong>
                   <span className={`provider-detail ${activeCompile.provider.mode}`}>
                     {activeCompile.provider.mode === "live" ? "Baseten live" : "Offline mock"}
-                    <span> / </span>{activeCompile.provider.model}
+                    <span> · </span>{activeCompile.provider.model}
                   </span>
                 </div>
               </div>
@@ -418,7 +418,7 @@ export default function Home() {
             </div>
           </div>
 
-          <ArenaCanvas
+          <ArenaContainer
             scenario={selectedScenario}
             mission={mission}
             result={result}
@@ -457,7 +457,7 @@ export default function Home() {
               disabled={!result}
             />
             <span className="playback-time">
-              {number(currentFrame?.t ?? 0, 1)} <span>/</span> {number(result?.duration_s ?? 0, 1)} s
+              {number(currentFrame?.t ?? 0, 1)} of {number(result?.duration_s ?? 0, 1)} s
             </span>
             <label className="speed-control">
               <span className="sr-only">Playback speed</span>
@@ -472,7 +472,7 @@ export default function Home() {
           {result ? (
             <div className="arena-caption">
               <span>Seed {result.seed}</span>
-              <span>Frame {frameIndex + 1} / {result.frames.length}</span>
+              <span>Frame {frameIndex + 1} of {result.frames.length}</span>
               <span>{result.agent.mode === "live" && result.agent.live_verified ? "Live agent call verified" : `Agent ${result.agent.mode}`}</span>
             </div>
           ) : (
@@ -597,9 +597,9 @@ export default function Home() {
       </section>
 
       <div className="app-meta">
-        <span>FieldWeaver / deterministic simulation</span>
+        <span>FieldWeaver · deterministic simulation</span>
         <span>{health?.provider.model ?? "Provider status unavailable"}</span>
-        <span>dt {health ? number(health.simulation.dt_s, 1) : "n/a"} s / seed default {seedDefault}</span>
+        <span>dt {health ? number(health.simulation.dt_s, 1) : "n/a"} s · seed default {seedDefault}</span>
       </div>
       </main>
       <SiteFooter />

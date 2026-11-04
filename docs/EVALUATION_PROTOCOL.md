@@ -8,10 +8,10 @@ Run the suite from the repository root:
 .\backend\.venv\Scripts\python.exe scripts\run_evaluation.py
 ```
 
-The current matrix contains seven scenarios and three paired seeds: 42, 43, and 44.
+The current matrix contains seven scenarios and ten paired seeds: 42 through 51.
 Each scenario and seed is run once with the quadratic estimator and deterministic
 offline agent, then once with the weighted-centroid baseline and agent disabled. This
-produces 21 observations per controller and 42 runs total. The controller pair shares
+produces 70 observations per controller and 140 runs total. The controller pair shares
 scenario, seed, mission, and duration limits.
 
 Scenarios cover open field, noisy field, a restricted corridor, a seeded dynamic
@@ -26,8 +26,11 @@ sample count is lower. No success-only filter is applied. The JSON report includ
 42 runs and the configuration details.
 
 The raw report is written to `artifacts/evaluation_report.json`; `.gitignore` excludes
-that generated output. The tracked values and limitations are summarized in
-`EVALUATION_RESULTS.md`.
+that generated output. The same report is copied to
+`frontend/public/evaluation-report.json`, which is the checked-in data source for the
+`/evaluation` page and its downloadable JSON. Regenerate this snapshot whenever the
+scenario matrix or simulator behavior changes. The measured values and limitations
+are summarized in `EVALUATION_RESULTS.md`.
 
 ## Agent evidence
 
@@ -44,7 +47,7 @@ separate live check is required before making live latency or model-performance 
 
 ## Interpretation limits
 
-- Three seeds provide a small deterministic sample, not broad robustness evidence.
+- Ten seeds provide a larger deterministic sample, not broad robustness evidence.
 - The baseline deliberately uses a weaker weighted-centroid estimator but shares the
   same formation objective and safety layer. It is not a general navigation benchmark.
 - Scenario geometry and the timeout cap are fixed. Results do not establish performance

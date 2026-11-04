@@ -143,8 +143,10 @@ motion.
 
 `GET /api/evaluations/latest` keeps the most recent run in process memory. It is not
 the aggregate evaluation suite and it is cleared on server restart. The reproducible
-suite writes `artifacts/evaluation_report.json`, which is intentionally ignored by
-Git; the checked-in summary is `docs/EVALUATION_RESULTS.md`.
+suite writes `artifacts/evaluation_report.json` for local inspection and the same
+checked-in snapshot to `frontend/public/evaluation-report.json`. The `/evaluation` page
+renders that snapshot and links to the raw JSON. The script also refreshes the snapshot
+when the scenario matrix is regenerated.
 
 ## Verify
 
