@@ -283,6 +283,5 @@ the [raw evaluation JSON](frontend/public/evaluation-report.json), also shown at
 - SAM 3.1 is not planned for this build. Physical hardware, persistent storage, and
   multi-source missions are outside the implemented scope.
 
-The reproduction steps for the seeded disturbance demo are in
-[docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md). Remaining limitations are summarized above
+Remaining limitations are summarized above
 and in [docs/EVALUATION_RESULTS.md](docs/EVALUATION_RESULTS.md).
