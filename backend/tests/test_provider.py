@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
+from unittest.mock import AsyncMock
 
 import httpx
 import pytest
@@ -68,6 +70,72 @@ async def test_chat_includes_explicit_max_tokens_when_requested() -> None:
 
 
 @pytest.mark.asyncio
+async def test_public_shared_key_fails_closed_without_budget() -> None:
+    client = BasetenClient(
+        replace(_settings(), public_mode=True),
+        transport=httpx.MockTransport(lambda _: _completion()),
+    )
+    with pytest.raises(ProviderError) as raised:
+        await client.chat([])
+    assert raised.value.code == "shared_budget_unavailable"
+
+
+@pytest.mark.asyncio
+async def test_byok_does_not_consume_shared_budget(monkeypatch) -> None:
+    reserve = AsyncMock()
+    monkeypatch.setattr("app.services.provider.reserve_shared_request", reserve)
+    client = BasetenClient(
+        replace(_settings(), public_mode=True, provider_is_byok=True),
+        transport=httpx.MockTransport(lambda _: _completion()),
+    )
+    await client.chat([])
+    reserve.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_shared_retry_reserves_each_attempt(monkeypatch) -> None:
+    reserve = AsyncMock()
+    monkeypatch.setattr("app.services.provider.reserve_shared_request", reserve)
+    responses = iter([httpx.Response(503), _completion()])
+    client = BasetenClient(
+        replace(_settings(retries=1), public_mode=True),
+        transport=httpx.MockTransport(lambda _: next(responses)),
+        retry_backoff_s=0,
+    )
+    await client.chat([])
+    assert reserve.await_count == 2
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    ("status", "code"), [(429, "shared_budget_exhausted"), (503, "shared_budget_unavailable")]
+)
+async def test_shared_budget_denials_fail_closed(monkeypatch, status, code) -> None:
+    from app.services.provider import reserve_shared_request
+
+    class BudgetClient:
+        def __init__(self, **kwargs):
+            pass
+
+        async def __aenter__(self):
+            return self
+
+        async def __aexit__(self, *args):
+            return False
+
+        async def post(self, url, headers):
+            return httpx.Response(status)
+
+    monkeypatch.setattr("app.services.provider.httpx.AsyncClient", BudgetClient)
+    settings = replace(
+        _settings(), shared_budget_url="https://budget.example", shared_budget_token="test"
+    )
+    with pytest.raises(ProviderError) as raised:
+        await reserve_shared_request(settings)
+    assert raised.value.code == code
+
+
+@pytest.mark.asyncio
 @pytest.mark.parametrize(
     ("status", "code"),
     [
@@ -113,9 +181,7 @@ async def test_chat_maps_timeout_and_malformed_response() -> None:
     def timeout_handler(request: httpx.Request) -> httpx.Response:
         raise httpx.ReadTimeout("timed out", request=request)
 
-    timeout_client = BasetenClient(
-        _settings(), transport=httpx.MockTransport(timeout_handler)
-    )
+    timeout_client = BasetenClient(_settings(), transport=httpx.MockTransport(timeout_handler))
     with pytest.raises(ProviderError) as timeout:
         await timeout_client.chat([])
     assert timeout.value.status_code == 504
@@ -134,15 +200,9 @@ async def test_chat_maps_timeout_and_malformed_response() -> None:
 async def test_chat_reports_when_reasoning_uses_the_output_budget() -> None:
     response = httpx.Response(
         200,
-        json={
-            "choices": [
-                {"message": {"content": ""}, "finish_reason": "length"}
-            ]
-        },
+        json={"choices": [{"message": {"content": ""}, "finish_reason": "length"}]},
     )
-    client = BasetenClient(
-        _settings(), transport=httpx.MockTransport(lambda request: response)
-    )
+    client = BasetenClient(_settings(), transport=httpx.MockTransport(lambda request: response))
 
     with pytest.raises(ProviderError) as raised:
         await client.chat([])

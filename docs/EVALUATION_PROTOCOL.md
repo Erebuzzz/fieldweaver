@@ -72,3 +72,7 @@ a paired baseline comparison and makes no live inference calls.
 
 The generated `artifacts/heldout_evaluation_report.json` records each trial and is
 ignored by Git. The held-out sample is a limited test, not a general safety guarantee.
+
+## Same-agent estimator ablation
+
+Run `python scripts/run_agent_off_ablation.py` from the repository root. It evaluates the quadratic and weighted-centroid controllers with the agent disabled for both, using the same four nominal scenarios and seeds 42 through 51. The recorded result after adding swept obstacle checks was 20/40 quadratic successes and 0/40 baseline successes, with zero reported robot collisions. The quadratic policy succeeded 10/10 in each open-field scenario and 0/10 in each corridor scenario. Both controllers shared the same safety filter and mission settings. This is a controlled comparison of the implemented policies, not a strong external research baseline or a general reliability claim. Results are available in `frontend/public/agent-off-ablation.json`.

@@ -1,0 +1,645 @@
+{
+  "agent_mode": "off",
+  "runs": [
+    {
+      "scenario": "open_field",
+      "seed": 42,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 42,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 43,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 43,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 44,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 44,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 45,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 45,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 46,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 46,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 47,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 47,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 48,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 48,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 49,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 49,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 50,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 50,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 51,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "open_field",
+      "seed": 51,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 42,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 42,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 43,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 43,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 44,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 44,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 45,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 45,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 46,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 46,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 47,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 47,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 48,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 48,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 49,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 49,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 50,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 50,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 51,
+      "controller": "quadratic",
+      "success": true,
+      "termination": "nominal_convergence",
+      "collisions": 0
+    },
+    {
+      "scenario": "noisy_open",
+      "seed": 51,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 42,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 42,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 43,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 43,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 44,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 44,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 45,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 45,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 46,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 46,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 47,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 47,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 48,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 48,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 49,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 49,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 50,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 50,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 51,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "restricted_corridor",
+      "seed": 51,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 42,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 42,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 43,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 43,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 44,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 44,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 45,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 45,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 46,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 46,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 47,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 47,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 48,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 48,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 49,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 49,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 50,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 50,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 51,
+      "controller": "quadratic",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    },
+    {
+      "scenario": "disturbed_corridor",
+      "seed": 51,
+      "controller": "baseline",
+      "success": false,
+      "termination": "timeout",
+      "collisions": 0
+    }
+  ]
+}

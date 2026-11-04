@@ -106,3 +106,7 @@ Render deployment preparation: free service blueprint, server-side Baseten defau
 The reviewed build and static export support were pushed to origin/main. Render Blueprint setup is open but service creation and frontend deployment are not complete. See docs/BUILD_STATE.md and docs/RENDER_DEPLOYMENT.md.
 
 Public frontend and Render backend deployed and verified: offline browser simulation converged, and one live Baseten compile succeeded. No scheduled keep-alive; Render Free can sleep. Meta and Fireworks remain live-unverified, and the public API has no authentication or durable spend cap. See docs/BUILD_STATE.md.
+
+Swept obstacle safety checks and an agent-off matched comparison were added locally. Backend 119 tests passed; fixed evaluation 40/70, held-out 40/40, and matched agent-off quadratic 20/40 versus baseline 0/40. Results do not establish general reliability. The hosted backend does not yet include these changes.
+
+A persistent shared-key allowance of 250 model requests per UTC day was added locally and its Cloudflare counter was boundary-tested. It is a request count, not a dollar cap. Backend 124 tests and frontend build passed. Hosted backend enforcement awaits deployment and verification.

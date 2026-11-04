@@ -12,7 +12,7 @@ from dataclasses import dataclass
 from app import limits
 from app.schemas import MissionSpec
 from app.simulation.dynamics import integrate_state
-from app.simulation.geometry import Region, Vec2
+from app.simulation.geometry import Region, Vec2, swept_region_clearance
 from app.simulation.types import RobotCommand, RobotState, SafetyIntervention
 
 
@@ -137,6 +137,28 @@ def validate_transition(
                     f"instantaneous speed {speed:.3f} m/s exceeds {max_speed:.3f} m/s",
                 )
             )
+        if dt > 0 and math.isfinite(dt):
+            for region in _active_regions(regions, time_s):
+                fraction = max(0.0, min(1.0, (region.active_from_s - (time_s - dt)) / dt))
+                start = Vec2(
+                    before.x + fraction * (after.x - before.x),
+                    before.y + fraction * (after.y - before.y),
+                )
+                end = Vec2(after.x, after.y)
+                gap = swept_region_clearance(region, start, end)
+                clearance = mission.constraints.minimum_obstacle_clearance
+                if (
+                    gap < clearance - limits.NUMERIC_EPSILON
+                    and region.clearance(end) >= clearance - limits.NUMERIC_EPSILON
+                ):
+                    issues.append(
+                        ValidationIssue(
+                            "obstacle_clearance",
+                            after.robot_id,
+                            f"swept clearance {gap:.3f} m to {region.id} "
+                            f"is below {clearance:.3f} m",
+                        )
+                    )
     for index, (left_before, left_after) in enumerate(zip(previous, current, strict=True)):
         for right_before, right_after in zip(
             previous[index + 1 :], current[index + 1 :], strict=True

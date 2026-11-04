@@ -1,6 +1,6 @@
 {
   "report_version": "1.0",
-  "generated_at_utc": "2026-11-04T18:05:31+00:00",
+  "generated_at_utc": "2026-11-04T22:11:35+00:00",
   "application_version": "0.1.0",
   "provider": {
     "name": "mock",
@@ -78,9 +78,9 @@
         },
         "wall_clock_ms": {
           "sample_count": 70,
-          "mean": 289.35660142877686,
-          "median": 238.96760000206996,
-          "sample_stddev": 164.4540371225081
+          "mean": 1282.9835528571493,
+          "median": 917.8108500000235,
+          "sample_stddev": 868.9826465997237
         },
         "safety_intervention_count": {
           "sample_count": 70,
@@ -142,9 +142,9 @@
         },
         "wall_clock_ms": {
           "sample_count": 70,
-          "mean": 350.5915214287857,
-          "median": 322.56969999798457,
-          "sample_stddev": 166.80884397866143
+          "mean": 1954.516608571339,
+          "median": 1486.774449999757,
+          "sample_stddev": 1408.5350420651562
         },
         "safety_intervention_count": {
           "sample_count": 70,
@@ -190,7 +190,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 33.939499960875324,
         "simulation_duration_s": 14.399999999999965,
-        "wall_clock_ms": 162.37279999768361,
+        "wall_clock_ms": 181.81519999961893,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -215,7 +215,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 174.11706610426012,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 270.1474999994389,
+        "wall_clock_ms": 418.772899999567,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -240,7 +240,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 37.09211240660077,
         "simulation_duration_s": 17.299999999999976,
-        "wall_clock_ms": 166.9774999973015,
+        "wall_clock_ms": 242.12249999982305,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -265,7 +265,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 174.08285720373692,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 278.51039999950444,
+        "wall_clock_ms": 395.93969999987166,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -290,7 +290,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 33.96390261306985,
         "simulation_duration_s": 14.399999999999965,
-        "wall_clock_ms": 129.5553000018117,
+        "wall_clock_ms": 341.8488999996043,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -315,7 +315,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 173.3231055989786,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 271.929700000328,
+        "wall_clock_ms": 1292.5404000006893,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -340,7 +340,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 33.44548925778431,
         "simulation_duration_s": 14.799999999999963,
-        "wall_clock_ms": 149.9783000035677,
+        "wall_clock_ms": 535.0050999995801,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -365,7 +365,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 173.67171918114786,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 260.25659999868367,
+        "wall_clock_ms": 1457.4042999993253,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -390,7 +390,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 34.63941283905579,
         "simulation_duration_s": 16.29999999999996,
-        "wall_clock_ms": 141.30769999610493,
+        "wall_clock_ms": 625.5842999999004,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -415,7 +415,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 173.90467369835198,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 259.1054000004078,
+        "wall_clock_ms": 1183.911099999932,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -440,7 +440,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 34.12449216671302,
         "simulation_duration_s": 14.499999999999964,
-        "wall_clock_ms": 143.46739999746205,
+        "wall_clock_ms": 470.53539999978966,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -465,7 +465,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 173.77042012448953,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 286.3174000012805,
+        "wall_clock_ms": 1087.245200000325,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -490,7 +490,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 33.84309719746899,
         "simulation_duration_s": 14.399999999999965,
-        "wall_clock_ms": 116.58409999654396,
+        "wall_clock_ms": 511.0531999998784,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -515,7 +515,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 173.98093805577523,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 297.51080000278307,
+        "wall_clock_ms": 1193.256599999586,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -540,7 +540,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 34.76726749414111,
         "simulation_duration_s": 15.099999999999962,
-        "wall_clock_ms": 137.4047999997856,
+        "wall_clock_ms": 678.9718999998513,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -565,7 +565,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 173.56216654456315,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 271.6096000003745,
+        "wall_clock_ms": 1516.1446000001888,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -590,7 +590,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 33.699911964671365,
         "simulation_duration_s": 14.499999999999964,
-        "wall_clock_ms": 123.07940000027884,
+        "wall_clock_ms": 609.2461999996885,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -615,7 +615,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 173.60142987798247,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 313.05750000319676,
+        "wall_clock_ms": 1095.4225999994378,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -640,7 +640,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 37.81440251442072,
         "simulation_duration_s": 17.69999999999998,
-        "wall_clock_ms": 160.62599999713711,
+        "wall_clock_ms": 639.7947000004933,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -665,7 +665,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 173.91714468972916,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 319.5668999978807,
+        "wall_clock_ms": 1068.3102999992116,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -690,7 +690,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 35.28163416048153,
         "simulation_duration_s": 16.89999999999997,
-        "wall_clock_ms": 194.37240000115708,
+        "wall_clock_ms": 613.5687999994843,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -715,7 +715,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 172.31245806559545,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 281.64639999886276,
+        "wall_clock_ms": 1199.9565000005532,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -740,7 +740,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 33.2709453855024,
         "simulation_duration_s": 15.89999999999996,
-        "wall_clock_ms": 150.82459999393905,
+        "wall_clock_ms": 549.2769000002227,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -765,7 +765,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 172.48159067950183,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 283.5086999984924,
+        "wall_clock_ms": 1874.567599999864,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -790,7 +790,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 33.10900738960143,
         "simulation_duration_s": 15.89999999999996,
-        "wall_clock_ms": 125.48809999861987,
+        "wall_clock_ms": 648.1736000005185,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -815,7 +815,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 173.03296302576874,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 263.8477000000421,
+        "wall_clock_ms": 1043.9205000002403,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -840,7 +840,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 33.17215460462549,
         "simulation_duration_s": 15.79999999999996,
-        "wall_clock_ms": 123.74950000230456,
+        "wall_clock_ms": 590.8030999999028,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -865,7 +865,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 172.66561823707636,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 325.57249999808846,
+        "wall_clock_ms": 1010.1623000000473,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -890,7 +890,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 33.06672461061929,
         "simulation_duration_s": 15.89999999999996,
-        "wall_clock_ms": 130.10339999891585,
+        "wall_clock_ms": 502.9248999999254,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -915,7 +915,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 173.06012477954985,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 250.55880000581965,
+        "wall_clock_ms": 944.4703999997728,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -940,7 +940,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 33.178691809862805,
         "simulation_duration_s": 15.89999999999996,
-        "wall_clock_ms": 147.64130000548903,
+        "wall_clock_ms": 523.2695000004242,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -965,7 +965,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 172.71414522299088,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 298.18570000497857,
+        "wall_clock_ms": 1064.70630000058,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -990,7 +990,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 32.6387153699684,
         "simulation_duration_s": 15.59999999999996,
-        "wall_clock_ms": 126.73120000545168,
+        "wall_clock_ms": 602.2211999998035,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1015,7 +1015,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 171.90816811558994,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 255.59570000041276,
+        "wall_clock_ms": 1409.9403000000166,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1040,7 +1040,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 33.25507604804003,
         "simulation_duration_s": 15.89999999999996,
-        "wall_clock_ms": 129.64110000029905,
+        "wall_clock_ms": 660.1961000005758,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1065,7 +1065,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 172.94322332076572,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 272.15630000137025,
+        "wall_clock_ms": 1122.339299999112,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1090,7 +1090,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 35.57099996888732,
         "simulation_duration_s": 16.99999999999997,
-        "wall_clock_ms": 182.67550000018673,
+        "wall_clock_ms": 662.4587999995128,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1115,7 +1115,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 172.8266367384914,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 344.0732000017306,
+        "wall_clock_ms": 1202.6172999994742,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1140,7 +1140,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 32.7667259396989,
         "simulation_duration_s": 15.69999999999996,
-        "wall_clock_ms": 190.60979999630945,
+        "wall_clock_ms": 628.5777000002781,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1165,7 +1165,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 172.9999110348828,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 281.3231000036467,
+        "wall_clock_ms": 1101.195899999766,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1190,7 +1190,7 @@
         "minimum_obstacle_clearance_m": 0.20004815426020173,
         "path_length_total_m": 62.15136224601622,
         "simulation_duration_s": 63.600000000000634,
-        "wall_clock_ms": 578.4450999999535,
+        "wall_clock_ms": 2690.881999999874,
         "safety_intervention_count": 228,
         "robot_collision_count": 0
       },
@@ -1215,7 +1215,7 @@
         "minimum_obstacle_clearance_m": 0.20602176725690668,
         "path_length_total_m": 14.725607311087145,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 444.7805000017979,
+        "wall_clock_ms": 2586.05979999993,
         "safety_intervention_count": 855,
         "robot_collision_count": 0
       },
@@ -1240,7 +1240,7 @@
         "minimum_obstacle_clearance_m": 0.2032515104233399,
         "path_length_total_m": 57.81552024821922,
         "simulation_duration_s": 55.200000000000514,
-        "wall_clock_ms": 468.6336000013398,
+        "wall_clock_ms": 2686.1997999994855,
         "safety_intervention_count": 226,
         "robot_collision_count": 0
       },
@@ -1265,7 +1265,7 @@
         "minimum_obstacle_clearance_m": 0.20000768603809238,
         "path_length_total_m": 15.134897895956446,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 439.03660000069067,
+        "wall_clock_ms": 2689.579599999888,
         "safety_intervention_count": 854,
         "robot_collision_count": 0
       },
@@ -1290,7 +1290,7 @@
         "minimum_obstacle_clearance_m": 0.20471116201140127,
         "path_length_total_m": 62.13072630595925,
         "simulation_duration_s": 63.600000000000634,
-        "wall_clock_ms": 568.1595999994897,
+        "wall_clock_ms": 2654.3715999996493,
         "safety_intervention_count": 228,
         "robot_collision_count": 0
       },
@@ -1315,7 +1315,7 @@
         "minimum_obstacle_clearance_m": 0.2024285428996192,
         "path_length_total_m": 14.486260824434204,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 496.7123999958858,
+        "wall_clock_ms": 2661.838699999862,
         "safety_intervention_count": 853,
         "robot_collision_count": 0
       },
@@ -1340,7 +1340,7 @@
         "minimum_obstacle_clearance_m": 0.20009194611183645,
         "path_length_total_m": 62.43530118535934,
         "simulation_duration_s": 63.600000000000634,
-        "wall_clock_ms": 680.6262000027345,
+        "wall_clock_ms": 2900.7132000006095,
         "safety_intervention_count": 226,
         "robot_collision_count": 0
       },
@@ -1365,7 +1365,7 @@
         "minimum_obstacle_clearance_m": 0.21005551834648628,
         "path_length_total_m": 14.754890861762796,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 541.3418999960413,
+        "wall_clock_ms": 2705.463599999348,
         "safety_intervention_count": 854,
         "robot_collision_count": 0
       },
@@ -1390,7 +1390,7 @@
         "minimum_obstacle_clearance_m": 0.20013457066350604,
         "path_length_total_m": 61.325468638904546,
         "simulation_duration_s": 67.00000000000047,
-        "wall_clock_ms": 636.8325000003097,
+        "wall_clock_ms": 2685.7655999992858,
         "safety_intervention_count": 227,
         "robot_collision_count": 0
       },
@@ -1415,7 +1415,7 @@
         "minimum_obstacle_clearance_m": 0.2005998537075108,
         "path_length_total_m": 14.82330102921197,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 479.3444000024465,
+        "wall_clock_ms": 2591.4952000002813,
         "safety_intervention_count": 854,
         "robot_collision_count": 0
       },
@@ -1440,7 +1440,7 @@
         "minimum_obstacle_clearance_m": 0.20189942399060445,
         "path_length_total_m": 61.93754344545125,
         "simulation_duration_s": 63.30000000000063,
-        "wall_clock_ms": 611.4090999981272,
+        "wall_clock_ms": 2639.9516000001313,
         "safety_intervention_count": 226,
         "robot_collision_count": 0
       },
@@ -1465,7 +1465,7 @@
         "minimum_obstacle_clearance_m": 0.2004531557065432,
         "path_length_total_m": 15.129931508516266,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 486.9489999982761,
+        "wall_clock_ms": 2814.18610000037,
         "safety_intervention_count": 853,
         "robot_collision_count": 0
       },
@@ -1490,7 +1490,7 @@
         "minimum_obstacle_clearance_m": 0.2065231837143351,
         "path_length_total_m": 61.9076119765573,
         "simulation_duration_s": 63.600000000000634,
-        "wall_clock_ms": 796.8316999977105,
+        "wall_clock_ms": 2718.9586000004056,
         "safety_intervention_count": 227,
         "robot_collision_count": 0
       },
@@ -1515,7 +1515,7 @@
         "minimum_obstacle_clearance_m": 0.20223541465160277,
         "path_length_total_m": 14.7743276587817,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 549.7804999977234,
+        "wall_clock_ms": 3769.1248000000996,
         "safety_intervention_count": 855,
         "robot_collision_count": 0
       },
@@ -1540,7 +1540,7 @@
         "minimum_obstacle_clearance_m": 0.20571211574124426,
         "path_length_total_m": 57.88523229350606,
         "simulation_duration_s": 55.300000000000516,
-        "wall_clock_ms": 613.4251000039512,
+        "wall_clock_ms": 2251.208499999848,
         "safety_intervention_count": 227,
         "robot_collision_count": 0
       },
@@ -1565,7 +1565,7 @@
         "minimum_obstacle_clearance_m": 0.2060519850776916,
         "path_length_total_m": 14.922438684319873,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 523.5462999989977,
+        "wall_clock_ms": 3175.405099999807,
         "safety_intervention_count": 853,
         "robot_collision_count": 0
       },
@@ -1590,7 +1590,7 @@
         "minimum_obstacle_clearance_m": 0.20001683782045276,
         "path_length_total_m": 61.90041679669563,
         "simulation_duration_s": 63.30000000000063,
-        "wall_clock_ms": 656.1929000017699,
+        "wall_clock_ms": 2776.4946999996027,
         "safety_intervention_count": 227,
         "robot_collision_count": 0
       },
@@ -1615,7 +1615,7 @@
         "minimum_obstacle_clearance_m": 0.20865456210498756,
         "path_length_total_m": 14.856557330993061,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 527.2308999992674,
+        "wall_clock_ms": 2770.5662999997003,
         "safety_intervention_count": 853,
         "robot_collision_count": 0
       },
@@ -1640,7 +1640,7 @@
         "minimum_obstacle_clearance_m": 0.20210000090989588,
         "path_length_total_m": 61.79763450104511,
         "simulation_duration_s": 63.40000000000063,
-        "wall_clock_ms": 613.0635000008624,
+        "wall_clock_ms": 2709.455300000627,
         "safety_intervention_count": 228,
         "robot_collision_count": 0
       },
@@ -1665,7 +1665,7 @@
         "minimum_obstacle_clearance_m": 0.20094953544803912,
         "path_length_total_m": 14.472401700294927,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 474.63219999917783,
+        "wall_clock_ms": 3020.1645000006465,
         "safety_intervention_count": 856,
         "robot_collision_count": 0
       },
@@ -1690,7 +1690,7 @@
         "minimum_obstacle_clearance_m": 0.24536980569074718,
         "path_length_total_m": 56.79694679094182,
         "simulation_duration_s": 29.700000000000152,
-        "wall_clock_ms": 287.95659999741474,
+        "wall_clock_ms": 1299.8027000003276,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1715,7 +1715,7 @@
         "minimum_obstacle_clearance_m": 0.20057468257076483,
         "path_length_total_m": 19.533230692456353,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 424.7462000057567,
+        "wall_clock_ms": 2379.3674999997165,
         "safety_intervention_count": 839,
         "robot_collision_count": 0
       },
@@ -1740,7 +1740,7 @@
         "minimum_obstacle_clearance_m": 0.291805352418601,
         "path_length_total_m": 54.56570072856066,
         "simulation_duration_s": 29.100000000000144,
-        "wall_clock_ms": 273.78440000029514,
+        "wall_clock_ms": 1102.2684999998091,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1765,7 +1765,7 @@
         "minimum_obstacle_clearance_m": 0.20029102925459252,
         "path_length_total_m": 19.90587733899818,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 459.67750000272645,
+        "wall_clock_ms": 2342.789499999526,
         "safety_intervention_count": 838,
         "robot_collision_count": 0
       },
@@ -1790,7 +1790,7 @@
         "minimum_obstacle_clearance_m": 0.23720385787102494,
         "path_length_total_m": 55.58375985736228,
         "simulation_duration_s": 27.300000000000118,
-        "wall_clock_ms": 274.47550000215415,
+        "wall_clock_ms": 1033.4382000000915,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1815,7 +1815,7 @@
         "minimum_obstacle_clearance_m": 0.2052098827379636,
         "path_length_total_m": 19.280700194707432,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 466.95639999961713,
+        "wall_clock_ms": 2628.2070999995994,
         "safety_intervention_count": 837,
         "robot_collision_count": 0
       },
@@ -1840,7 +1840,7 @@
         "minimum_obstacle_clearance_m": 0.29475715716294376,
         "path_length_total_m": 56.43903937155479,
         "simulation_duration_s": 27.300000000000118,
-        "wall_clock_ms": 286.3246999986586,
+        "wall_clock_ms": 1609.2879999996512,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1865,7 +1865,7 @@
         "minimum_obstacle_clearance_m": 0.2035518789025866,
         "path_length_total_m": 19.593098716456932,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 437.6043000011123,
+        "wall_clock_ms": 2392.643600000156,
         "safety_intervention_count": 838,
         "robot_collision_count": 0
       },
@@ -1890,7 +1890,7 @@
         "minimum_obstacle_clearance_m": 0.29024010664172106,
         "path_length_total_m": 56.32256319893134,
         "simulation_duration_s": 29.60000000000015,
-        "wall_clock_ms": 322.4312000020291,
+        "wall_clock_ms": 1108.8301999998293,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1915,7 +1915,7 @@
         "minimum_obstacle_clearance_m": 0.20208307101628176,
         "path_length_total_m": 19.634530197029513,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 522.7788999982295,
+        "wall_clock_ms": 2334.7929000001386,
         "safety_intervention_count": 838,
         "robot_collision_count": 0
       },
@@ -1940,7 +1940,7 @@
         "minimum_obstacle_clearance_m": 0.28871996866821886,
         "path_length_total_m": 55.46728852598336,
         "simulation_duration_s": 27.300000000000118,
-        "wall_clock_ms": 307.1997000006377,
+        "wall_clock_ms": 1064.8051999996824,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -1965,7 +1965,7 @@
         "minimum_obstacle_clearance_m": 0.20244617853519742,
         "path_length_total_m": 19.912382687666614,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 482.4575000020559,
+        "wall_clock_ms": 2375.511700000061,
         "safety_intervention_count": 837,
         "robot_collision_count": 0
       },
@@ -1990,7 +1990,7 @@
         "minimum_obstacle_clearance_m": 0.2716426388978892,
         "path_length_total_m": 55.40936578269236,
         "simulation_duration_s": 27.200000000000117,
-        "wall_clock_ms": 298.09680000471417,
+        "wall_clock_ms": 1089.6879000001718,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2015,7 +2015,7 @@
         "minimum_obstacle_clearance_m": 0.20339549897850695,
         "path_length_total_m": 19.557976407405818,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 501.2105999994674,
+        "wall_clock_ms": 2417.032399999698,
         "safety_intervention_count": 839,
         "robot_collision_count": 0
       },
@@ -2040,7 +2040,7 @@
         "minimum_obstacle_clearance_m": 0.28708375951307374,
         "path_length_total_m": 57.57187274623695,
         "simulation_duration_s": 29.50000000000015,
-        "wall_clock_ms": 322.85780000529485,
+        "wall_clock_ms": 1180.4055000002336,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2065,7 +2065,7 @@
         "minimum_obstacle_clearance_m": 0.20063975695710423,
         "path_length_total_m": 19.746483381370375,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 482.3662999988301,
+        "wall_clock_ms": 2366.4170999991256,
         "safety_intervention_count": 837,
         "robot_collision_count": 0
       },
@@ -2090,7 +2090,7 @@
         "minimum_obstacle_clearance_m": 0.28632199944147985,
         "path_length_total_m": 56.21292964788429,
         "simulation_duration_s": 26.600000000000108,
-        "wall_clock_ms": 300.6277000022237,
+        "wall_clock_ms": 1042.8218000006382,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2115,7 +2115,7 @@
         "minimum_obstacle_clearance_m": 0.20002826042456867,
         "path_length_total_m": 19.68349370039465,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 427.15250000037486,
+        "wall_clock_ms": 2586.3941999996314,
         "safety_intervention_count": 837,
         "robot_collision_count": 0
       },
@@ -2140,7 +2140,7 @@
         "minimum_obstacle_clearance_m": 0.2403465057116536,
         "path_length_total_m": 58.09131279458105,
         "simulation_duration_s": 32.000000000000185,
-        "wall_clock_ms": 349.9236000061501,
+        "wall_clock_ms": 1389.566300000297,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2165,7 +2165,7 @@
         "minimum_obstacle_clearance_m": 0.20415295876125275,
         "path_length_total_m": 19.279569778505426,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 515.9249999996973,
+        "wall_clock_ms": 2602.2241000000577,
         "safety_intervention_count": 840,
         "robot_collision_count": 0
       },
@@ -2190,7 +2190,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.793642311132494,
         "simulation_duration_s": 27.100000000000115,
-        "wall_clock_ms": 257.25510000484064,
+        "wall_clock_ms": 916.8784000003143,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2215,7 +2215,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.50769524951504,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 384.0524999977788,
+        "wall_clock_ms": 1661.8100999994567,
         "safety_intervention_count": 705,
         "robot_collision_count": 0
       },
@@ -2240,7 +2240,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 47.01789493813884,
         "simulation_duration_s": 28.10000000000013,
-        "wall_clock_ms": 290.1895999966655,
+        "wall_clock_ms": 1234.8511999998664,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2265,7 +2265,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.474057020040966,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 256.8879000027664,
+        "wall_clock_ms": 1044.3780999994488,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2290,7 +2290,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.82389944333747,
         "simulation_duration_s": 27.900000000000126,
-        "wall_clock_ms": 261.387200000172,
+        "wall_clock_ms": 993.1335000001127,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2315,7 +2315,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.30078314354326,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 268.92339999903925,
+        "wall_clock_ms": 866.7600999997376,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2340,7 +2340,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 47.086813919790934,
         "simulation_duration_s": 27.200000000000117,
-        "wall_clock_ms": 233.18640000070445,
+        "wall_clock_ms": 854.8843999997189,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2365,7 +2365,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.58417240801408,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 238.47419999947306,
+        "wall_clock_ms": 890.5430000004344,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2390,7 +2390,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.054495357510035,
         "simulation_duration_s": 27.900000000000126,
-        "wall_clock_ms": 307.10130000079516,
+        "wall_clock_ms": 907.2398000007524,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2415,7 +2415,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.281884884662894,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 250.96840000333032,
+        "wall_clock_ms": 1834.287100000438,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2440,7 +2440,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.975874583209595,
         "simulation_duration_s": 28.600000000000136,
-        "wall_clock_ms": 234.60299999715062,
+        "wall_clock_ms": 1141.0950000008597,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2465,7 +2465,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.51451063856724,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 246.36959999770625,
+        "wall_clock_ms": 1012.5926000000618,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2490,7 +2490,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.693586945618044,
         "simulation_duration_s": 27.200000000000117,
-        "wall_clock_ms": 238.56760000489885,
+        "wall_clock_ms": 874.5094999994762,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2515,7 +2515,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.16974353341996,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 261.2429999935557,
+        "wall_clock_ms": 1031.3479999995252,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2540,7 +2540,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.204226696294164,
         "simulation_duration_s": 27.50000000000012,
-        "wall_clock_ms": 233.51009999896633,
+        "wall_clock_ms": 944.8914000004152,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2565,7 +2565,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.708064126680114,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 361.9392999971751,
+        "wall_clock_ms": 1674.6184000003268,
         "safety_intervention_count": 699,
         "robot_collision_count": 0
       },
@@ -2590,7 +2590,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.85149137594732,
         "simulation_duration_s": 27.000000000000114,
-        "wall_clock_ms": 225.61929999938002,
+        "wall_clock_ms": 918.7432999997327,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2615,7 +2615,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.62571602488937,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 356.77180000493536,
+        "wall_clock_ms": 1455.692800000179,
         "safety_intervention_count": 703,
         "robot_collision_count": 0
       },
@@ -2640,7 +2640,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.83899015754729,
         "simulation_duration_s": 27.900000000000126,
-        "wall_clock_ms": 239.36759999924107,
+        "wall_clock_ms": 889.0602999999828,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2665,7 +2665,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 46.20352969653986,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 254.96530000236817,
+        "wall_clock_ms": 1023.1942000000345,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -2690,7 +2690,7 @@
         "minimum_obstacle_clearance_m": 0.20144596008619509,
         "path_length_total_m": 24.800382691972377,
         "simulation_duration_s": 28.500000000000135,
-        "wall_clock_ms": 364.3530000044848,
+        "wall_clock_ms": 2515.3958999999304,
         "safety_intervention_count": 213,
         "robot_collision_count": 0
       },
@@ -2715,7 +2715,7 @@
         "minimum_obstacle_clearance_m": 0.20466136604772434,
         "path_length_total_m": 21.63581746624088,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 561.8653999990784,
+        "wall_clock_ms": 5059.967799999868,
         "safety_intervention_count": 832,
         "robot_collision_count": 0
       },
@@ -2740,7 +2740,7 @@
         "minimum_obstacle_clearance_m": 0.2015622308698406,
         "path_length_total_m": 24.27202129016412,
         "simulation_duration_s": 30.20000000000016,
-        "wall_clock_ms": 354.8945999937132,
+        "wall_clock_ms": 3054.7655000000304,
         "safety_intervention_count": 230,
         "robot_collision_count": 0
       },
@@ -2765,7 +2765,7 @@
         "minimum_obstacle_clearance_m": 0.20321588271737134,
         "path_length_total_m": 21.99566513640277,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 646.2092000001576,
+        "wall_clock_ms": 4908.590200000617,
         "safety_intervention_count": 831,
         "robot_collision_count": 0
       },
@@ -2790,7 +2790,7 @@
         "minimum_obstacle_clearance_m": 0.20247733678470325,
         "path_length_total_m": 24.642576632616954,
         "simulation_duration_s": 28.700000000000138,
-        "wall_clock_ms": 486.04279999563005,
+        "wall_clock_ms": 2624.6776999996655,
         "safety_intervention_count": 216,
         "robot_collision_count": 0
       },
@@ -2815,7 +2815,7 @@
         "minimum_obstacle_clearance_m": 0.20450597321134514,
         "path_length_total_m": 21.354004044500208,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 599.0165000039269,
+        "wall_clock_ms": 4287.414899999931,
         "safety_intervention_count": 830,
         "robot_collision_count": 0
       },
@@ -2840,7 +2840,7 @@
         "minimum_obstacle_clearance_m": 0.20018098548793528,
         "path_length_total_m": 26.425900524773194,
         "simulation_duration_s": 32.100000000000186,
-        "wall_clock_ms": 422.06309999892255,
+        "wall_clock_ms": 2609.4384000007267,
         "safety_intervention_count": 249,
         "robot_collision_count": 0
       },
@@ -2865,7 +2865,7 @@
         "minimum_obstacle_clearance_m": 0.20540540998490364,
         "path_length_total_m": 21.646728646712173,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 529.7855000026175,
+        "wall_clock_ms": 4444.094400000722,
         "safety_intervention_count": 831,
         "robot_collision_count": 0
       },
@@ -2890,7 +2890,7 @@
         "minimum_obstacle_clearance_m": 0.2046906834271125,
         "path_length_total_m": 24.636169955895493,
         "simulation_duration_s": 30.000000000000156,
-        "wall_clock_ms": 375.01199999678647,
+        "wall_clock_ms": 2376.3317000002644,
         "safety_intervention_count": 228,
         "robot_collision_count": 0
       },
@@ -2915,7 +2915,7 @@
         "minimum_obstacle_clearance_m": 0.20582109502573684,
         "path_length_total_m": 21.711143501658494,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 589.9965999997221,
+        "wall_clock_ms": 4655.085299999882,
         "safety_intervention_count": 831,
         "robot_collision_count": 0
       },
@@ -2940,7 +2940,7 @@
         "minimum_obstacle_clearance_m": 0.20001818893855994,
         "path_length_total_m": 24.88874554446507,
         "simulation_duration_s": 28.700000000000138,
-        "wall_clock_ms": 363.0760000014561,
+        "wall_clock_ms": 2524.3520000003628,
         "safety_intervention_count": 215,
         "robot_collision_count": 0
       },
@@ -2965,7 +2965,7 @@
         "minimum_obstacle_clearance_m": 0.20500555398270404,
         "path_length_total_m": 21.980754429339115,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 700.2821000060067,
+        "wall_clock_ms": 4385.375200000453,
         "safety_intervention_count": 830,
         "robot_collision_count": 0
       },
@@ -2990,7 +2990,7 @@
         "minimum_obstacle_clearance_m": 0.2000151994990027,
         "path_length_total_m": 24.6922709439578,
         "simulation_duration_s": 28.400000000000134,
-        "wall_clock_ms": 443.94009999814443,
+        "wall_clock_ms": 2437.8888000001098,
         "safety_intervention_count": 213,
         "robot_collision_count": 0
       },
@@ -3015,7 +3015,7 @@
         "minimum_obstacle_clearance_m": 0.20018776008829411,
         "path_length_total_m": 21.691569450489208,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 510.5600999959279,
+        "wall_clock_ms": 4902.159599999322,
         "safety_intervention_count": 832,
         "robot_collision_count": 0
       },
@@ -3040,7 +3040,7 @@
         "minimum_obstacle_clearance_m": 0.20084143929420595,
         "path_length_total_m": 25.352101550437823,
         "simulation_duration_s": 30.000000000000156,
-        "wall_clock_ms": 356.421100004809,
+        "wall_clock_ms": 2279.515399999582,
         "safety_intervention_count": 228,
         "robot_collision_count": 0
       },
@@ -3065,7 +3065,7 @@
         "minimum_obstacle_clearance_m": 0.20118820367678808,
         "path_length_total_m": 21.728101370726463,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 545.1362999956473,
+        "wall_clock_ms": 4445.544100000006,
         "safety_intervention_count": 830,
         "robot_collision_count": 0
       },
@@ -3090,7 +3090,7 @@
         "minimum_obstacle_clearance_m": 0.2004141866674134,
         "path_length_total_m": 25.49880432650655,
         "simulation_duration_s": 29.800000000000153,
-        "wall_clock_ms": 314.36199999734527,
+        "wall_clock_ms": 1936.4010999997845,
         "safety_intervention_count": 227,
         "robot_collision_count": 0
       },
@@ -3115,7 +3115,7 @@
         "minimum_obstacle_clearance_m": 0.20320108829266123,
         "path_length_total_m": 21.770200128763303,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 504.43929999892134,
+        "wall_clock_ms": 4654.453199999807,
         "safety_intervention_count": 830,
         "robot_collision_count": 0
       },
@@ -3140,7 +3140,7 @@
         "minimum_obstacle_clearance_m": 0.20115556113511968,
         "path_length_total_m": 24.096507358522665,
         "simulation_duration_s": 30.100000000000158,
-        "wall_clock_ms": 348.6765999987256,
+        "wall_clock_ms": 2326.050900000155,
         "safety_intervention_count": 229,
         "robot_collision_count": 0
       },
@@ -3165,7 +3165,7 @@
         "minimum_obstacle_clearance_m": 0.20554827742207443,
         "path_length_total_m": 21.305184734516374,
         "simulation_duration_s": 89.99999999999916,
-        "wall_clock_ms": 510.4773999992176,
+        "wall_clock_ms": 4608.062299999801,
         "safety_intervention_count": 833,
         "robot_collision_count": 0
       },
@@ -3190,7 +3190,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 52.299856459205444,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 168.3024000012665,
+        "wall_clock_ms": 684.3815000001996,
         "safety_intervention_count": 3,
         "robot_collision_count": 0
       },
@@ -3215,7 +3215,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 51.0794220216433,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 56.23790000390727,
+        "wall_clock_ms": 234.104600000137,
         "safety_intervention_count": 1,
         "robot_collision_count": 0
       },
@@ -3240,7 +3240,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 52.245831082997256,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 169.43130000436213,
+        "wall_clock_ms": 650.3535000001648,
         "safety_intervention_count": 3,
         "robot_collision_count": 0
       },
@@ -3265,7 +3265,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 51.107717267060906,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 54.117699997732416,
+        "wall_clock_ms": 220.41219999937312,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -3290,7 +3290,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 52.43119812900949,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 167.5580999944941,
+        "wall_clock_ms": 770.4525999997713,
         "safety_intervention_count": 4,
         "robot_collision_count": 0
       },
@@ -3315,7 +3315,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 50.74523372518986,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 53.96160000236705,
+        "wall_clock_ms": 225.23570000066684,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -3340,7 +3340,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 52.65272415667555,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 184.92350000451552,
+        "wall_clock_ms": 690.7949999995253,
         "safety_intervention_count": 3,
         "robot_collision_count": 0
       },
@@ -3365,7 +3365,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 51.10872467274777,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 50.36629999813158,
+        "wall_clock_ms": 237.4162999994951,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -3390,7 +3390,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 52.62593892624491,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 171.81870000058552,
+        "wall_clock_ms": 702.3247999995874,
         "safety_intervention_count": 5,
         "robot_collision_count": 0
       },
@@ -3415,7 +3415,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 50.939476729359384,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 54.524300001503434,
+        "wall_clock_ms": 248.47289999979694,
         "safety_intervention_count": 1,
         "robot_collision_count": 0
       },
@@ -3440,7 +3440,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 52.405866673385134,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 170.87660000106553,
+        "wall_clock_ms": 679.7616000003472,
         "safety_intervention_count": 3,
         "robot_collision_count": 0
       },
@@ -3465,7 +3465,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 51.03667481370278,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 61.352199998509604,
+        "wall_clock_ms": 258.4969999998066,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -3490,7 +3490,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 52.13046263278684,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 171.8923000007635,
+        "wall_clock_ms": 644.2456000004313,
         "safety_intervention_count": 3,
         "robot_collision_count": 0
       },
@@ -3515,7 +3515,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 51.1099169829939,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 53.25989999982994,
+        "wall_clock_ms": 257.6926000001549,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -3540,7 +3540,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 52.322787035131185,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 173.69250000047032,
+        "wall_clock_ms": 457.33479999944393,
         "safety_intervention_count": 3,
         "robot_collision_count": 0
       },
@@ -3565,7 +3565,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 51.17127728592645,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 102.7708999972674,
+        "wall_clock_ms": 169.10319999988133,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -3590,7 +3590,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 52.290309648076416,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 170.4870999965351,
+        "wall_clock_ms": 386.8768000002092,
         "safety_intervention_count": 3,
         "robot_collision_count": 0
       },
@@ -3615,7 +3615,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 51.04853331775257,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 56.84089999704156,
+        "wall_clock_ms": 135.73099999939586,
         "safety_intervention_count": 0,
         "robot_collision_count": 0
       },
@@ -3640,7 +3640,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 52.19189293718856,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 175.86360000132117,
+        "wall_clock_ms": 329.8550999998042,
         "safety_intervention_count": 3,
         "robot_collision_count": 0
       },
@@ -3665,7 +3665,7 @@
         "minimum_obstacle_clearance_m": null,
         "path_length_total_m": 50.999971883834114,
         "simulation_duration_s": 20.000000000000014,
-        "wall_clock_ms": 50.90120000386378,
+        "wall_clock_ms": 91.43779999976687,
         "safety_intervention_count": 1,
         "robot_collision_count": 0
       },

@@ -394,6 +394,7 @@ export default function Home() {
             <input id="provider-key" type="password" value={providerKey} onChange={(event) => { setProviderKey(event.target.value); invalidateMission(); }} autoComplete="off" />
           </label>
           <p className="scenario-description">Kept in this page until cleared or closed. Your selected provider processes mission and agent requests. Use HTTPS for remote connections.</p>
+          <p className="scenario-description">The default shared Baseten key has a 250-request daily limit, resetting at midnight UTC. Your own key uses its provider account instead.</p>
           <div className="field-row field-row-small">
             <label className="field-group" htmlFor="compiler-mode">
               <span className="field-label">Mission compiler</span>

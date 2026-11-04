@@ -11,5 +11,9 @@ services:
         value: "true"
       - key: BASETEN_API_KEY
         sync: false
+      - key: FIELDWEAVER_BUDGET_URL
+        value: https://fieldweaver-budget.kshitiz23kumar.workers.dev/
+      - key: FIELDWEAVER_BUDGET_TOKEN
+        sync: false
       - key: FIELDWEAVER_CORS_ORIGINS
         value: https://fieldweaver.erebuzzz.tech

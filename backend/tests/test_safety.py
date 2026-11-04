@@ -9,7 +9,7 @@ from app import limits
 from app.safety.validator import SafetyFilter, validate_state, validate_transition
 from app.schemas import default_mission_spec
 from app.simulation.dynamics import integrate_state
-from app.simulation.geometry import RegionKind, Vec2
+from app.simulation.geometry import CircleRegion, RectRegion, RegionKind, Vec2
 from app.simulation.scenario import (
     INFEASIBLE_ENCLOSURE,
     OPEN_FIELD,
@@ -91,6 +91,27 @@ def test_validator_allows_parallel_motion_at_safe_separation() -> None:
     before = (RobotState(0, 4.0, 5.0), RobotState(1, 5.0, 5.0))
     after = (RobotState(0, 4.5, 5.0), RobotState(1, 5.5, 5.0))
     assert validate_transition(before, after, MISSION, 10.0, 10.0, (), 2.0, 2.0) == []
+
+
+@pytest.mark.parametrize(
+    "region",
+    [
+        RectRegion("thin", RegionKind.OBSTACLE, 4.99, 4.8, 5.01, 5.2),
+        CircleRegion("small", RegionKind.OBSTACLE, Vec2(5.0, 5.0), 0.05),
+    ],
+)
+def test_transition_rejects_crossing_obstacle_between_safe_endpoints(region) -> None:
+    before = (RobotState(0, 4.5, 5.0),)
+    after = (RobotState(0, 5.5, 5.0),)
+    issues = validate_transition(before, after, MISSION, 10.0, 10.0, (region,), 2.0, 2.0)
+    assert any(issue.kind == "obstacle_clearance" for issue in issues)
+
+
+def test_obstacle_only_checked_after_activation_within_step() -> None:
+    region = RectRegion("late", RegionKind.OBSTACLE, 4.3, 4.8, 4.4, 5.2, active_from_s=1.5)
+    before = (RobotState(0, 4.0, 5.0),)
+    after = (RobotState(0, 5.0, 5.0),)
+    assert validate_transition(before, after, MISSION, 10.0, 10.0, (region,), 2.0, 2.0) == []
 
 
 def test_validator_detects_non_finite_state() -> None:

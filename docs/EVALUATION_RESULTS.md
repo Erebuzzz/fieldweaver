@@ -43,3 +43,7 @@ Mean / median / sample standard deviation. Missing obstacle-clearance values are
 The disturbed corridor recovered in 10 of 10 deterministic mock trials, each requiring a recorded replan. Live agent quality and latency are not measured by this report. The near-boundary and sealed-enclosure cases intentionally test infeasibility; the far-source case has a fixed 20-second cap. Ten seeds per scenario do not establish broad robustness.
 
 A separate held-out check used seeds 52 through 61 for each of the four nominal scenarios. The quadratic controller succeeded in 40 of 40 runs with zero reported robot collisions; this check is separate from the fixed paired report and does not establish a general safety guarantee.
+
+## Agent-off comparison
+
+A matched four-scenario, ten-seed ablation with agent decisions off for both controllers produced 20/40 quadratic successes and 0/40 weighted-centroid successes. Open field and noisy open field each produced 10/10 quadratic successes; both corridor scenarios produced 0/10. Both policies reported zero robot collisions. The agent-enabled fixed suite and this agent-off comparison answer different questions; neither establishes general reliability.

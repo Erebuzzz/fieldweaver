@@ -327,3 +327,16 @@ No deploy or hackathon submission occurred.
 - Verified HTTPS 200 for frontend root, guide, evaluation, license, and rover GLB. Render CORS preflight allowed the custom frontend origin. Actual Render API checks passed for health, seven scenarios, mock compile, and a seed-42 agent-off run. Public latest-run returned the expected 404. An actual live Baseten compile returned HTTP 200 using `meta-models/muse-spark-open-1026`.
 - A browser run on the public site used the balanced preset, mock compilation and agent-off mode; it converged and displayed a 3D canvas. Meta and Fireworks remain live-unverified. No scheduled keep-alive was configured. Render Free can sleep; the backend is not guaranteed continuously available.
 - Updated public guide/security copy and API reference link and redeployed static Worker version `5bad2af1`. Verified the public guide links to the Render API reference and the security page states the public demo limitation. The app has no user authentication; the process-local rate limit is not a persistent spending cap.
+
+## 2026-11-05 swept obstacles and matched agent-off evaluation
+
+- Added exact segment clearance for circle and axis-aligned rectangle regions during straight-line timestep motion. Regions activated during a step are checked only from their activation time. This is a simulation check for point robots and does not prove safety for physical robots or moving obstacles.
+- Backend full test suite passed 119 tests and targeted safety tests passed 17; Ruff passed. The fixed suite reproduced 40/70 quadratic and 0/70 baseline, with 10/10 mock disturbance recoveries. The four held-out nominal groups each passed 10/10.
+- A new agent-off ablation runs both controllers with identical agent settings: quadratic 20/40, baseline 0/40, zero reported collisions. The quadratic controller succeeded 10/10 in each open scenario and 0/10 in each corridor scenario. It is not a strong external research baseline.
+- Live browser checks confirmed all three preset robot counts and the missing-key error for Meta. These checks exercised the previously deployed version, not the new swept-obstacle code. Live Meta and Fireworks remain unverified.
+
+## 2026-11-05 shared-key daily allowance
+
+- User selected a 250-request daily allowance for the public shared Baseten key. Added a Cloudflare D1-backed counter and private authenticated Worker, using atomic SQL updates by UTC date. The backend reserves before each shared-key attempt, including retries, and fails closed when the counter is unavailable or exhausted. BYOK and offline paths do not consume this allowance. This limits request count, not dollars; token cost can vary. The existing per-process short-term request limit remains.
+- The worker rejected an unauthenticated request and accepted an authenticated reservation. A separate synthetic date boundary test accepted the 250th reservation and rejected the 251st. Render environment variables were merged without replacing existing secrets. Actual hosted enforcement remains pending backend deployment and end-to-end verification.
+- Backend full suite passed 124 tests; Ruff passed. The frontend static build passed. Meta and Fireworks remain live-unverified because keys are not available.

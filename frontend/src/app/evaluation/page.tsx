@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import evaluationReport from "../../../public/evaluation-report.json";
+import ablationReport from "../../../public/agent-off-ablation.json";
 import { DocumentFrame } from "@/components/site-chrome";
 import { EvaluationControllerView } from "@/components/evaluation-controller-view";
 
@@ -52,6 +53,8 @@ export default function EvaluationPage() {
   const scenarios = [...new Set(evaluationReport.runs.map((run) => run.scenario_id))];
   const nominal = evaluationReport.runs.filter((run) => run.controller === "quadratic" && ["open_field", "noisy_open", "restricted_corridor", "disturbed_corridor"].includes(run.scenario_id));
   const stress = evaluationReport.runs.filter((run) => run.controller === "quadratic" && ["near_boundary", "infeasible_enclosure", "far_source"].includes(run.scenario_id));
+  const agentOffQuadratic = ablationReport.runs.filter((run) => run.controller === "quadratic");
+  const agentOffBaseline = ablationReport.runs.filter((run) => run.controller === "baseline");
 
   return (
     <DocumentFrame active="evaluation">
@@ -110,6 +113,12 @@ export default function EvaluationPage() {
                 Across the four nominal scenarios, {nominal.filter((run) => run.success).length} of {nominal.length} quadratic trials converged.
                 The three stress scenarios contributed {stress.filter((run) => run.success).length} of {stress.length} successes;
                 their infeasible routes and short time budget remain failures in the total above.
+              </p>
+              <p>
+                With the agent disabled for both controllers on those same four scenarios,
+                the quadratic policy converged in {agentOffQuadratic.filter((run) => run.success).length} of {agentOffQuadratic.length} trials,
+                and the weighted-centroid policy in {agentOffBaseline.filter((run) => run.success).length} of {agentOffBaseline.length}.
+                This separate ablation helps show the recovery agent&apos;s contribution.
               </p>
               <div className="evaluation-kpis">
                 <div>

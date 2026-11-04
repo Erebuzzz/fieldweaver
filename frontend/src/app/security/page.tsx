@@ -84,7 +84,7 @@ export default function SecurityPage() {
             <p className="doc-kicker">CURRENT POSTURE</p>
             <strong>Public demo</strong>
             <p>
-              The hosted API has no user authentication. Its process-local request limit is not a spending cap, and CORS is not access control.
+              The hosted API has no user authentication. Its shared-key request limit is not a spending cap, and CORS is not access control.
             </p>
           </aside>
 
@@ -93,10 +93,10 @@ export default function SecurityPage() {
               <p className="doc-kicker">01: SERVICE BOUNDARY</p>
               <h2>Public access has limits.</h2>
               <p>
-                The hosted API does not authenticate users. Public mode disables shared latest-run history and applies a process-local request limit. Its CORS allowlist does not prevent direct HTTP clients from reaching it.
+                The hosted API does not authenticate users. Public mode disables shared latest-run history and applies a process-local request limit. A persistent counter limits the shared Baseten key to 250 model requests per UTC day. Its CORS allowlist does not prevent direct HTTP clients from reaching it.
               </p>
               <p>
-                This demo is not a hardened multi-user service. The request limit resets on restart and does not enforce a provider spending budget. More robust access controls are needed for production use.
+                This demo is not a hardened multi-user service. The request count is not a dollar spending budget, and the short-term rate limit resets on restart. More robust access controls are needed for production use.
               </p>
             </section>
 

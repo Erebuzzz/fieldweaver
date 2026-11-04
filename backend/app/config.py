@@ -30,6 +30,9 @@ class Settings:
     cors_origins: tuple[str, ...]
     provider_name: str = "baseten"
     public_mode: bool = False
+    provider_is_byok: bool = False
+    shared_budget_url: str | None = None
+    shared_budget_token: str | None = None
 
     @property
     def provider_configured(self) -> bool:
@@ -96,6 +99,8 @@ def get_settings() -> Settings:
         ),
         cors_origins=tuple(origin.strip() for origin in origins.split(",") if origin.strip()),
         public_mode=public_mode,
+        shared_budget_url=os.getenv("FIELDWEAVER_BUDGET_URL"),
+        shared_budget_token=os.getenv("FIELDWEAVER_BUDGET_TOKEN"),
     )
 
 

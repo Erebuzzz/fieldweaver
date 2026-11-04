@@ -94,10 +94,10 @@ class BasetenClient:
             transport=self._transport,
         ) as client:
             for attempt in range(attempts):
+                if self.settings.public_mode and not self.settings.provider_is_byok:
+                    await reserve_shared_request(self.settings)
                 try:
-                    response = await client.post(
-                        "chat/completions", json=payload, headers=headers
-                    )
+                    response = await client.post("chat/completions", json=payload, headers=headers)
                 except httpx.TimeoutException as exc:
                     if attempt < attempts - 1:
                         await asyncio.sleep(self._retry_backoff_s * (attempt + 1))
@@ -178,6 +178,41 @@ class BasetenClient:
                 )
 
         raise ProviderError(502, "provider_error", "The live model request failed.")
+
+
+async def reserve_shared_request(settings: Settings) -> None:
+    unavailable = "The shared model is temporarily unavailable. Use your own key or offline mode."
+    if not settings.shared_budget_url or not settings.shared_budget_token:
+        raise ProviderError(
+            503,
+            "shared_budget_unavailable",
+            unavailable,
+        )
+    try:
+        async with httpx.AsyncClient(timeout=5.0) as client:
+            response = await client.post(
+                settings.shared_budget_url,
+                headers={"Authorization": f"Bearer {settings.shared_budget_token}"},
+            )
+    except httpx.HTTPError as exc:
+        raise ProviderError(
+            503,
+            "shared_budget_unavailable",
+            unavailable,
+        ) from exc
+    if response.status_code == 429:
+        raise ProviderError(
+            429,
+            "shared_budget_exhausted",
+            "The daily shared model request limit has been reached. "
+            "Use your own key or offline mode.",
+        )
+    if response.status_code != 200:
+        raise ProviderError(
+            503,
+            "shared_budget_unavailable",
+            unavailable,
+        )
 
 
 def extract_json_object(content: str) -> dict[str, Any]:

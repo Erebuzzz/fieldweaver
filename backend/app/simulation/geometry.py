@@ -130,3 +130,35 @@ def point_to_segment_distance(point: Vec2, start: Vec2, end: Vec2) -> float:
     t = ((point.x - start.x) * dx + (point.y - start.y) * dy) / (dx * dx + dy * dy)
     t = max(0.0, min(1.0, t))
     return point.distance_to(Vec2(start.x + t * dx, start.y + t * dy))
+
+
+def swept_region_clearance(region: Region, start: Vec2, end: Vec2) -> float:
+    if isinstance(region, CircleRegion):
+        return max(0.0, point_to_segment_distance(region.center, start, end) - region.radius)
+
+    low, high = 0.0, 1.0
+    for origin, delta, minimum, maximum in (
+        (start.x, end.x - start.x, region.x_min, region.x_max),
+        (start.y, end.y - start.y, region.y_min, region.y_max),
+    ):
+        if delta == 0:
+            if origin < minimum or origin > maximum:
+                low, high = 1.0, 0.0
+                break
+        else:
+            first, second = (minimum - origin) / delta, (maximum - origin) / delta
+            low = max(low, min(first, second))
+            high = min(high, max(first, second))
+    if low <= high:
+        return 0.0
+    corners = (
+        Vec2(region.x_min, region.y_min),
+        Vec2(region.x_min, region.y_max),
+        Vec2(region.x_max, region.y_min),
+        Vec2(region.x_max, region.y_max),
+    )
+    return min(
+        region.clearance(start),
+        region.clearance(end),
+        *(point_to_segment_distance(corner, start, end) for corner in corners),
+    )

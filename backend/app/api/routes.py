@@ -50,6 +50,7 @@ def _request_settings(selection: ProviderSelection | None):  # type: ignore[no-u
         baseten_base_url=_PROVIDER_URLS[selection.name],
         baseten_model=selection.model,
         provider_name=selection.name,
+        provider_is_byok=True,
     )
 
 
