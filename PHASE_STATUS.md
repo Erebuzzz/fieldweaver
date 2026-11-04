@@ -102,3 +102,7 @@ Cloudflare deployment is blocked by account Containers access, an unavailable lo
 Local backend Docker image built and its offline smoke test passed. The Cloudflare Containers plan and public API isolation remain deployment blockers.
 
 Render deployment preparation: free service blueprint, server-side Baseten default plus BYOK, shared latest-run disabled and a process-local request limit. Backend 116 tests and Ruff passed; frontend build, lint, and typecheck passed. Render deployment remains unverified. No scheduled keep-alive is planned.
+
+The reviewed build and static export support were pushed to origin/main. Render Blueprint setup is open but service creation and frontend deployment are not complete. See docs/BUILD_STATE.md and docs/RENDER_DEPLOYMENT.md.
+
+Public frontend and Render backend deployed and verified: offline browser simulation converged, and one live Baseten compile succeeded. No scheduled keep-alive; Render Free can sleep. Meta and Fireworks remain live-unverified, and the public API has no authentication or durable spend cap. See docs/BUILD_STATE.md.

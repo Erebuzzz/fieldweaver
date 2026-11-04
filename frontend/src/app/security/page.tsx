@@ -45,16 +45,15 @@ export default function SecurityPage() {
             SECURITY ARCHITECTURE: BOUNDARY ASSURANCE
           </p>
           <h1>
-            Keep the control<br />
-            <em>surface local.</em>
+            Understand the<br />
+            <em>security boundaries.</em>
           </h1>
           <p className="document-lede">
-            The current API is built for local development and research simulation.
-            Review these boundaries before exposing an instance to another network.
+            FieldWeaver is a public research simulation. Review these boundaries before sharing sensitive data or credentials.
           </p>
           <div className="doc-hero-meta">
             <span>BOUNDARY ASSURANCE V1.0</span>
-            <span>LOCAL DEVELOPMENT</span>
+            <span>PUBLIC DEMO</span>
             <span>UPDATED NOV 4, 2026</span>
           </div>
         </section>
@@ -83,27 +82,21 @@ export default function SecurityPage() {
           <aside className="security-status-card" aria-label="Current security posture summary">
             <span className="status-emblem" aria-hidden="true">+</span>
             <p className="doc-kicker">CURRENT POSTURE</p>
-            <strong>Local use only</strong>
+            <strong>Public demo</strong>
             <p>
-              The API has no authentication or rate limiting. CORS is an origin boundary,
-              not an access control system.
+              The hosted API has no user authentication. Its process-local request limit is not a spending cap, and CORS is not access control.
             </p>
           </aside>
 
           <article className="policy-article">
             <section className="docs-section">
               <p className="doc-kicker">01: SERVICE BOUNDARY</p>
-              <h2>Do not expose the development API as-is.</h2>
+              <h2>Public access has limits.</h2>
               <p>
-                The documented launch command binds the backend and frontend to loopback.
-                The FastAPI service has no user authentication, authorization, or rate limiting.
-                Its CORS allowlist helps browsers enforce origin rules, but does not prevent direct
-                HTTP clients from reaching a network-accessible API.
+                The hosted API does not authenticate users. Public mode disables shared latest-run history and applies a process-local request limit. Its CORS allowlist does not prevent direct HTTP clients from reaching it.
               </p>
               <p>
-                For any shared or hosted deployment, add an authenticated reverse proxy, TLS,
-                network restrictions, request limits, and a reviewed CORS configuration. Keep the
-                API unreachable from untrusted networks until those controls are in place.
+                This demo is not a hardened multi-user service. The request limit resets on restart and does not enforce a provider spending budget. More robust access controls are needed for production use.
               </p>
             </section>
 

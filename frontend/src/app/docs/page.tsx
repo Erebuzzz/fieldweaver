@@ -289,7 +289,7 @@ export default function DocsPage() {
                 <li>It does not control hardware or model complex robot dynamics.</li>
                 <li>It does not support multiple sources, physical mapping, manipulation, or team splitting.</li>
                 <li>Scene segmentation is disabled. Built-in scenarios are the supported path.</li>
-                <li>The API has no authentication or rate limiting and is intended for local development.</li>
+                <li>The hosted API has no user authentication. Its process-local request limit is not a persistent spending cap.</li>
                 <li>Evaluation uses ten fixed seeds per scenario and does not establish general reliability.</li>
                 <li>No live Baseten request was made for the recorded evaluation results.</li>
               </ul>

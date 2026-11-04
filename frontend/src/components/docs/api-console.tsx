@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { apiRequest } from "@/lib/api";
+import { API_BASE, apiRequest } from "@/lib/api";
 
 const endpoints = [
   { path: "/api/health", description: "Backend status and the server default provider." },
@@ -36,7 +36,7 @@ export function ApiConsole() {
       <p>{endpoints[selected].description} No model call is made.</p>
       <button type="button" className="guide-button guide-primary" onClick={runRequest} disabled={busy}>{busy ? "Checking..." : "Send request"}</button>
       <pre className="code-block" aria-live="polite"><code>{output}</code></pre>
-      <p>For compile and run contracts, use the backend&apos;s interactive API reference at <a href="http://127.0.0.1:8000/docs" target="_blank" rel="noreferrer">127.0.0.1:8000/docs</a>.</p>
+      <p>For compile and run contracts, open the <a href={`${API_BASE}/docs`} target="_blank" rel="noreferrer">backend API reference</a>.</p>
     </div>
   );
 }

@@ -1,5 +1,10 @@
 # Local setup and API guide
 
+The hosted demo is available at https://fieldweaver.erebuzzz.tech and its backend
+reference at https://fieldweaver-api.onrender.com/docs. Render's free service can
+sleep after inactivity and may take about a minute to wake. The local setup below
+remains available for development.
+
 ## Prerequisites
 
 - Python 3.11 or newer
@@ -165,6 +170,6 @@ From `backend/`, run the backend tests with:
 
 The advanced workspace accepts a Baseten, Meta Model API, or Fireworks key and a model ID. A provided key is held in page memory and sent to the backend with each live compile or live agent run; mock and agent-off requests omit it. Closing the page or clearing the field removes it from the UI. The backend uses fixed provider URLs and request-scoped settings, and does not return the key. The configured server Baseten key remains the default when no browser key is provided.
 
-Use this feature locally or behind HTTPS. This local application has no user authentication or multi-user session isolation and is not ready to be exposed directly to untrusted networks. TLS does not protect against a compromised browser, server, or logging proxy. Provider account permissions, billing, model availability, and content policies still apply. Enter only text-generation model IDs. Meta and Fireworks live calls have not been verified because keys are unavailable.
+Use this feature locally or behind HTTPS. The hosted demo has no user authentication; its process-local request limit is not a persistent spending cap. TLS does not protect against a compromised browser, server, or logging proxy. Provider account permissions, billing, model availability, and content policies still apply. Enter only text-generation model IDs. Meta and Fireworks live calls have not been verified because keys are unavailable.
 
 Meta: https://dev.meta.ai/docs/protocols and https://dev.meta.ai/docs/models. Fireworks: https://docs.fireworks.ai/.

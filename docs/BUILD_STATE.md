@@ -313,3 +313,17 @@ No deploy or hackathon submission occurred.
 - Public mode keeps the default server key server-side, disables shared latest-run storage and access, and applies a process-local limit of 12 compile/run requests per minute. The limit is shared across users, resets on restart, and is not a persistent spending cap or distributed abuse protection. The service still needs appropriate production access controls.
 - Frontend retries failed startup connections for a bounded period to help with a sleeping Render service. This is not a scheduled keep-alive.
 - Backend full suite: 116 passed; Ruff passed. Frontend typecheck, lint, and build passed. Blueprint YAML parsed locally; it has not been deployed or validated by Render. No Render account connection or public service was verified.
+
+## 2026-11-05 Render and static export progress
+
+- User authorized the public GitHub push. Commits `6f2e770` and `77d5442` were pushed to origin/main after an exact staged secret-value scan found no matches. Agent-private folders and `.env` were excluded.
+- The frontend static export build succeeded with a placeholder API URL. It must be rebuilt with the real Render HTTPS URL once that service exists. No domain or frontend deployment has occurred.
+- Render Blueprint setup was opened in the signed-in account for `Erebuzzz/fieldweaver`; service creation awaits entry of the Baseten secret in Render. No key was returned in tool output. No scheduled keep-alive is planned.
+
+## 2026-11-05 public deployment
+
+- Render deployed `fieldweaver-api` from the approved public repository. Its HTTPS URL is https://fieldweaver-api.onrender.com. The user configured the Baseten key directly in Render; no key was recorded in this log.
+- Cloudflare Workers static assets serves https://fieldweaver.erebuzzz.tech. The static export was built with the live Render URL and uploaded through the dashboard. It is a manual upload and does not automatically update from Git.
+- Verified HTTPS 200 for frontend root, guide, evaluation, license, and rover GLB. Render CORS preflight allowed the custom frontend origin. Actual Render API checks passed for health, seven scenarios, mock compile, and a seed-42 agent-off run. Public latest-run returned the expected 404. An actual live Baseten compile returned HTTP 200 using `meta-models/muse-spark-open-1026`.
+- A browser run on the public site used the balanced preset, mock compilation and agent-off mode; it converged and displayed a 3D canvas. Meta and Fireworks remain live-unverified. No scheduled keep-alive was configured. Render Free can sleep; the backend is not guaranteed continuously available.
+- Updated public guide/security copy and API reference link and redeployed static Worker version `5bad2af1`. Verified the public guide links to the Render API reference and the security page states the public demo limitation. The app has no user authentication; the process-local rate limit is not a persistent spending cap.

@@ -1,6 +1,6 @@
 import type { ApiErrorBody } from "@/lib/types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://127.0.0.1:8000";
 
 export async function apiRequest<T>(path: string, body?: unknown): Promise<T> {
   if (body && typeof body === "object" && "provider" in body && body.provider) {

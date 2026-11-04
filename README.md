@@ -1,5 +1,10 @@
 # FieldWeaver
 
+Try the public demo at [fieldweaver.erebuzzz.tech](https://fieldweaver.erebuzzz.tech).
+The backend API reference is at [fieldweaver-api.onrender.com/docs](https://fieldweaver-api.onrender.com/docs).
+The free Render service sleeps after inactivity and can take about a minute to wake.
+This is a public demo without user authentication; its request limit is not a spending cap.
+
 FieldWeaver turns a short operator mission into a validated specification, then runs a
 seeded 2D multi-robot source-localization simulation. The simulator keeps the source
 coordinate out of mission compilation, controller observations, and agent observations.
