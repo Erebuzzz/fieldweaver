@@ -7,13 +7,9 @@ An independent safety filter checks every proposed motion.
 
 The project uses Baseten's OpenAI-compatible Chat Completions endpoint with
 `meta-models/muse-spark-open-1026` when a server-side `BASETEN_API_KEY` is configured.
-Without a key, the application uses an explicitly labelled deterministic mock. The
-live endpoint contract is implemented and covered with HTTP mocks. Two generic live
-smoke requests were attempted, including one with a larger output budget. Both returned
-empty content, so a usable live response has not been verified. The adapter now leaves
-`max_tokens` unset to use Baseten's documented default of 4096. Baseten's reasoning
-guide describes the unversioned Muse Spark Open slug; applying that behavior to the
-hackathon `-1026` model is an inference.
+Without a key, the application uses an explicitly labelled deterministic mock.
+A live mission compilation and a separate live obstacle-response trial succeeded on
+November 4, 2026. These are individual checks, not a statistical model evaluation.
 
 ## What is implemented
 
@@ -134,12 +130,13 @@ configured defaults are `https://inference.baseten.co/v1` and
 `Baseten live` without a key returns an explicit provider error. `Automatic` uses live
 only when the backend has a key; otherwise it uses the labelled offline mock.
 
-The deterministic test suite uses mocked HTTP. Two separately approved generic smoke
-requests returned empty content, so live behavior remains unverified. The adapter now
-uses Baseten's documented default completion budget, which leaves room for Muse Spark's
-reasoning and final answer. Mocked HTTP tests cover the endpoint path, auth and
-rate-limit errors, timeout, and malformed responses. For setup details, see
-[docs/API_SETUP.md](docs/API_SETUP.md).
+The deterministic test suite uses mocked HTTP. On November 4, 2026, a live API
+compilation returned a strictly validated specification and the resulting open-field
+run converged with the agent disabled. A separate live agent requested a validated
+detour in one dynamic-barrier trial, which converged. An earlier one-decision trial
+selected a cautious profile and exhausted its decision budget. These limited checks do
+not establish live-agent reliability. Mission and agent completions use a 4096-token
+cap. See [docs/API_SETUP.md](docs/API_SETUP.md) for setup and test details.
 
 ## API routes
 
@@ -151,7 +148,7 @@ rate-limit errors, timeout, and malformed responses. For setup details, see
 | `POST /api/missions/compile` | Compile text to a strict mission specification |
 | `POST /api/simulations/run` | Run a seeded simulation and return frames, metrics, and traces |
 | `GET /api/evaluations/latest` | Latest run evaluation held in the current backend process |
-| `POST /api/scenes/segment` | Returns `503`; SAM integration is deferred |
+| `POST /api/scenes/segment` | Returns `503`; SAM is out of scope |
 
 All API errors use a request-ID error envelope. The latest evaluation endpoint is
 process-local and is not the aggregate report. The `/evaluation` page displays the
@@ -188,9 +185,9 @@ seeds; local wall-clock timings naturally vary between executions.
 
 ## Evaluation snapshot
 
-In the checked-in ten-seed suite, the quadratic controller succeeded in 31 of 70 runs
+In the checked-in ten-seed suite, the quadratic controller succeeded in 40 of 70 runs
 and the weighted-centroid baseline succeeded in 0 of 70. The proposed controller
-terminated with `route_infeasible` in 21 runs and timed out in 18. All 70 baseline runs
+terminated with `route_infeasible` in 20 runs and timed out in 10. All 70 baseline runs
 timed out. The seeded `disturbed_corridor` case recovered in 10 of 10 trials with the
 offline mock agent. These results are limited to the listed scenarios and seeds. They do
 not establish general superiority or live-agent performance. Full metrics, variation,
@@ -205,11 +202,10 @@ the [raw evaluation JSON](frontend/public/evaluation-report.json), also shown at
 - The latest-run API state is process-local; it resets when the backend restarts.
 - The evaluation sample contains ten seeds for each of seven scenarios. Broader
   robustness and cross-platform determinism have not been established.
-- Live inference remains unverified after two generic smoke requests returned empty
-  content at explicitly capped output lengths. Live latency and live agent quality have
-  not been measured.
-- SAM 3.1, physical hardware, persistent storage, and multi-source missions are outside
-  the implemented scope.
+- Live compiler and agent checks have passed individual trials, but live-agent
+  reliability and latency distributions have not been evaluated.
+- SAM 3.1 is not planned for this build. Physical hardware, persistent storage, and
+  multi-source missions are outside the implemented scope.
 
 The reproduction steps for the seeded disturbance demo are in
 [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md). Remaining limitations are summarized above

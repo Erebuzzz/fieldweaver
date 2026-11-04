@@ -80,6 +80,19 @@ def test_validator_detects_speed_limit_violation() -> None:
     assert any(issue.kind == "speed_limit" for issue in issues)
 
 
+def test_validator_detects_robots_crossing_between_safe_endpoints() -> None:
+    before = (RobotState(0, 4.0, 5.0), RobotState(1, 5.0, 5.0))
+    after = (RobotState(0, 5.0, 5.0), RobotState(1, 4.0, 5.0))
+    issues = validate_transition(before, after, MISSION, 10.0, 10.0, (), 4.0, 4.0)
+    assert any(issue.kind == "robot_separation" and issue.related_robot_id == 1 for issue in issues)
+
+
+def test_validator_allows_parallel_motion_at_safe_separation() -> None:
+    before = (RobotState(0, 4.0, 5.0), RobotState(1, 5.0, 5.0))
+    after = (RobotState(0, 4.5, 5.0), RobotState(1, 5.5, 5.0))
+    assert validate_transition(before, after, MISSION, 10.0, 10.0, (), 2.0, 2.0) == []
+
+
 def test_validator_detects_non_finite_state() -> None:
     bogus = RobotState(robot_id=0, x=5.0, y=5.0)
     object.__setattr__(bogus, "x", math.nan)

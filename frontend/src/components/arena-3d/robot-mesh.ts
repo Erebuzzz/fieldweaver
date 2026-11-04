@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 
 const TEAM_COLORS = [
   0x0ea5e9, // Rover 0: Cyan
@@ -18,6 +19,8 @@ export type RoverUserData = {
   trailLine: THREE.Line;
   trailHistory: THREE.Vector3[];
   maxTrailLength: number;
+  wheelAxis: THREE.Vector3;
+  disposed: boolean;
 };
 
 export function createRoverMesh(robotId: number): THREE.Group {
@@ -148,10 +151,80 @@ export function createRoverMesh(robotId: number): THREE.Group {
     trailLine,
     trailHistory: [],
     maxTrailLength,
+    wheelAxis: new THREE.Vector3(0, 0, 1),
+    disposed: false,
   };
   group.userData = userData;
+  loadRoverModel(group, userData, accentColor);
 
   return group;
+}
+
+function disposeVisual(root: THREE.Object3D): void {
+  const geometries = new Set<THREE.BufferGeometry>();
+  const materials = new Set<THREE.Material>();
+  root.traverse((child) => {
+    if (!(child instanceof THREE.Mesh)) return;
+    geometries.add(child.geometry);
+    for (const material of Array.isArray(child.material) ? child.material : [child.material]) {
+      materials.add(material);
+    }
+  });
+  geometries.forEach((geometry) => geometry.dispose());
+  materials.forEach((material) => material.dispose());
+}
+
+function loadRoverModel(group: THREE.Group, data: RoverUserData, accentColor: number): void {
+  new GLTFLoader().load(
+    "/models/fieldweaver-rover-prototype.glb",
+    ({ scene }) => {
+      if (data.disposed) {
+        disposeVisual(scene);
+        return;
+      }
+
+      const meshes: THREE.Mesh[] = [];
+      scene.traverse((child) => {
+        if (child instanceof THREE.Mesh) meshes.push(child);
+      });
+      const named = (name: string) => meshes.find((mesh) => mesh.name.replaceAll("_", " ") === name);
+      const sensor = named("FW sensor");
+      const spine = named("FW identification spine");
+      const wheels = meshes.filter((mesh) => /^FW wheel(?:[._]?\d+)?$/.test(mesh.name.replaceAll("_", " ")));
+      if (!sensor || !spine || wheels.length !== 4 || !(sensor.material instanceof THREE.MeshStandardMaterial) || !(spine.material instanceof THREE.MeshStandardMaterial)) {
+        disposeVisual(scene);
+        return;
+      }
+
+      const originalAccents = new Set([sensor.material, spine.material]);
+      const sensorMaterial = sensor.material.clone();
+      const spineMaterial = spine.material.clone();
+      sensor.material = sensorMaterial;
+      spine.material = spineMaterial;
+      for (const material of originalAccents) {
+        if (!meshes.some((mesh) => mesh.material === material || (Array.isArray(mesh.material) && mesh.material.includes(material)))) {
+          material.dispose();
+        }
+      }
+      sensorMaterial.color.setHex(accentColor);
+      sensorMaterial.emissive.setHex(accentColor);
+      spineMaterial.color.setHex(accentColor);
+      spineMaterial.emissive.setHex(accentColor);
+      spineMaterial.emissiveIntensity = 0.35;
+      meshes.forEach((mesh) => { mesh.castShadow = true; mesh.receiveShadow = true; });
+
+      for (const child of [...group.children]) {
+        group.remove(child);
+        disposeVisual(child);
+      }
+      group.add(scene);
+      data.wheels = wheels;
+      data.sensorLed = sensor;
+      data.wheelAxis.set(0, 1, 0);
+    },
+    undefined,
+    () => {},
+  );
 }
 
 export function updateRover(
@@ -181,7 +254,7 @@ export function updateRover(
 
   // Roll wheels forward
   for (const wheel of data.wheels) {
-    wheel.rotation.z += 0.08;
+    wheel.rotateOnAxis(data.wheelAxis, 0.08);
   }
 
   // Record historical ground trail position
@@ -227,6 +300,7 @@ export function resetRoverTrail(group: THREE.Group): void {
 
 export function disposeRoverMesh(group: THREE.Group): void {
   const data = group.userData as RoverUserData | undefined;
+  if (data) data.disposed = true;
 
   if (data?.trailLine) {
     if (data.trailLine.parent) {

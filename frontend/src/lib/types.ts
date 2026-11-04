@@ -51,7 +51,7 @@ export type MissionSpec = {
 
 export type ProviderMetadata = {
   mode: "mock" | "live";
-  name: "mock" | "baseten";
+  name: "mock" | "baseten" | "meta" | "fireworks";
   model: string;
   latency_ms: number;
   live_verified: boolean;

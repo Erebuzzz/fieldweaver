@@ -87,15 +87,14 @@ timeouts, authentication errors, rate limits, unreachable responses, malformed
 completion shapes, and invalid model output are mapped to explicit errors. Provider
 tests use an injected `httpx.MockTransport`; they do not make network calls.
 
-The adapter leaves `max_tokens` unset unless a caller explicitly overrides it, so the
-model API applies its documented default of 4096 tokens. Baseten's [reasoning
-guide](https://docs.baseten.co/inference/model-apis/reasoning) says the unversioned Muse
-Spark Open model always reasons, and reasoning tokens count toward the completion
-budget. Applying this behavior to the hackathon's `-1026` model slug is an inference.
-The adapter reads the final answer from `message.content`; it does not treat
-`reasoning_content` as a mission result. Two prior generic smoke requests capped at 8
-and 128 tokens returned empty content. Budget exhaustion is plausible but unconfirmed
-because their raw responses were not retained; live inference is still unverified.
+The mission compiler and agent decision provider explicitly set a 4096-token output
+cap. Reasoning tokens may consume part of this budget. The adapter reads the final
+answer from `message.content`; it does not treat `reasoning_content` as a mission
+result. On November 4, 2026, one bounded live compilation passed strict validation and
+an actual API route compiled a generic mission that subsequently converged with the
+agent off. A live dynamic-barrier trial also requested a validated detour and converged.
+An earlier one-decision live trial selected a cautious profile and exhausted its budget.
+These individual trials do not establish reliability or a latency distribution.
 
 ## HTTP routes
 
@@ -107,7 +106,7 @@ because their raw responses were not retained; live inference is still unverifie
 | `POST /api/missions/compile` | `mission_text`, optional `scenario_id`, optional provider `mode`; returns validated `MissionSpec`, provider metadata, and warnings |
 | `POST /api/simulations/run` | Validated mission, `scenario_id`, seed, controller, and agent mode; returns recorded frames, computed evaluation, safety summary, and agent trace |
 | `GET /api/evaluations/latest` | Latest run evaluation in this backend process; `404` before the first run |
-| `POST /api/scenes/segment` | `503 perception_disabled` until a supported SAM endpoint and credential are verified |
+| `POST /api/scenes/segment` | `503 perception_disabled`; SAM is out of scope for this build |
 
 Every response includes a request ID field and `X-Request-ID` header. Errors follow
 this shape:
@@ -161,3 +160,11 @@ From `backend/`, run the backend tests with:
 ```powershell
 .venv\Scripts\python.exe -m pytest -v
 ```
+
+## Browser-entered provider keys
+
+The advanced workspace accepts a Baseten, Meta Model API, or Fireworks key and a model ID. A provided key is held in page memory and sent to the backend with each live compile or live agent run; mock and agent-off requests omit it. Closing the page or clearing the field removes it from the UI. The backend uses fixed provider URLs and request-scoped settings, and does not return the key. The configured server Baseten key remains the default when no browser key is provided.
+
+Use this feature locally or behind HTTPS. This local application has no user authentication or multi-user session isolation and is not ready to be exposed directly to untrusted networks. TLS does not protect against a compromised browser, server, or logging proxy. Provider account permissions, billing, model availability, and content policies still apply. Enter only text-generation model IDs. Meta and Fireworks live calls have not been verified because keys are unavailable.
+
+Meta: https://dev.meta.ai/docs/protocols and https://dev.meta.ai/docs/models. Fireworks: https://docs.fireworks.ai/.

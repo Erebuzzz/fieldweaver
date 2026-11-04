@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from dataclasses import replace
 
 import httpx
 import pytest
@@ -34,6 +35,36 @@ def _response(content: str) -> httpx.Response:
             "usage": {"prompt_tokens": 9, "completion_tokens": 12, "total_tokens": 21},
         },
     )
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "name,url",
+    [
+        ("meta", "https://api.meta.ai/v1"),
+        ("fireworks", "https://api.fireworks.ai/inference/v1"),
+    ],
+)
+async def test_alternative_provider_chat_contract(name: str, url: str) -> None:
+    requests = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        requests.append(request)
+        return _response(default_mission_spec().model_dump_json())
+
+    settings = replace(
+        _settings(), provider_name=name, baseten_base_url=url, baseten_model="test-model"
+    )
+    result = await compile_live(
+        "Locate one source.",
+        OPEN_FIELD,
+        settings,
+        BasetenClient(settings, transport=httpx.MockTransport(handler)),
+    )
+    assert str(requests[0].url) == f"{url}/chat/completions"
+    assert requests[0].headers["authorization"] == "Bearer test-key"
+    assert json.loads(requests[0].content)["model"] == "test-model"
+    assert result.to_public()["provider"]["name"] == name
 
 
 def test_mock_compiler_clamps_values_and_reports_unsupported_work() -> None:
@@ -83,6 +114,7 @@ async def test_live_compiler_validates_output_and_sends_public_scene_only() -> N
     assert result.live_verified is True
     assert result.model == EXACT_MODEL_ID
     assert result.usage["total_tokens"] == 21
+    assert seen[0]["max_tokens"] == 4096
     serialized = json.dumps(seen[0]["messages"])
     assert '"source":' not in serialized
     assert "7.0" not in serialized
@@ -113,3 +145,33 @@ async def test_auto_mode_uses_explicit_mock_without_key() -> None:
     )
     assert result.mode == "mock"
     assert result.live_verified is False
+
+
+@pytest.mark.parametrize(
+    "mission_text",
+    [
+        "Find one source with separation of 1.4 m.",
+        "Find one source with obstacle clearance of 1.0 m.",
+        "Find one source with maximum speed of 0.05 m/s.",
+        "Find one source with 8 robots, ring radius of 0.8 m and separation of 1.0 m.",
+    ],
+)
+def test_mock_compiler_rejects_requests_that_would_relax_safety(mission_text: str) -> None:
+    with pytest.raises(ProviderError) as raised:
+        compile_mock(mission_text, OPEN_FIELD)
+    assert raised.value.code in {"mission_constraint_not_met", "mission_infeasible"}
+
+
+@pytest.mark.asyncio
+async def test_live_compiler_rejects_weaker_explicit_safety_constraint() -> None:
+    payload = default_mission_spec().model_dump(mode="json")
+    settings = _settings()
+    client = BasetenClient(
+        settings,
+        transport=httpx.MockTransport(lambda request: _response(json.dumps(payload))),
+    )
+    with pytest.raises(ProviderError) as raised:
+        await compile_live(
+            "Locate one source with separation of 0.8 m.", OPEN_FIELD, settings, client
+        )
+    assert raised.value.code == "mission_constraint_not_met"

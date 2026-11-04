@@ -55,6 +55,7 @@ class AgentObservation(StrictModel):
     team_centroid_y: float
     mean_distance_to_estimate_m: float
     active_region_ids: list[str]
+    direct_path_blocked: bool = False
     recent_safety_interventions: int
     recent_intervention_kinds: list[str]
     maximum_speed_mps: float
@@ -235,6 +236,9 @@ Rules:
 - reason_code must be one of: blocked_progress, obstacle_change,
   repeated_safety_interventions, route_infeasible, mission_progress_normal.
 - short_rationale must be <=400 characters.
+- When a new obstacle blocks the direct path to a valid estimate, prefer
+  switch_search_pattern to request a deterministic detour.
+- A clear direct path does not prove that every robot has a safe route.
 - The safety layer can veto any action and has final authority.
 - Never ask for or invent a source coordinate.
 Return shape:
@@ -261,7 +265,7 @@ class BasetenDecisionProvider:
                 "content": observation.model_dump_json(indent=2),
             },
         ]
-        result = await self.client.chat(messages, temperature=0.1)
+        result = await self.client.chat(messages, temperature=0.1, max_tokens=4096)
         payload = extract_json_object(result.content)
         try:
             return AgentDecision.model_validate(payload)
@@ -555,6 +559,15 @@ class BoundedOrchestrator:
             team_centroid_y=centroid_y,
             mean_distance_to_estimate_m=mean_distance,
             active_region_ids=[region.id for region in session.active_regions],
+            direct_path_blocked=(
+                estimate.valid
+                and any(
+                    region.segment_clearance(
+                        Vec2(centroid_x, centroid_y), Vec2(estimate.x, estimate.y)
+                    ) < session.mission.constraints.minimum_obstacle_clearance
+                    for region in session.active_regions
+                )
+            ),
             recent_safety_interventions=len(recent),
             recent_intervention_kinds=sorted({item.kind for item in recent}),
             maximum_speed_mps=session.mission.constraints.maximum_speed,

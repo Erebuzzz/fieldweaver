@@ -165,7 +165,7 @@ async def build_report() -> dict[str, Any]:
         },
         "runs": runs,
         "limitations": [
-            "Three fixed seeds per scenario provide limited spread evidence, not broad "
+            "Ten fixed seeds per scenario provide limited spread evidence, not broad "
             "robustness evidence.",
             "All agent decisions used the deterministic offline mock; Baseten was not called.",
             "Live inference latency was not measured because this evaluation "

@@ -19,6 +19,7 @@ from app.services.agent import (
 from app.services.provider import BasetenClient, ProviderError
 from app.simulation.engine import SimulationSession
 from app.simulation.scenario import DISTURBED_CORRIDOR, OPEN_FIELD
+from app.simulation.types import SourceEstimate
 
 
 def _settings() -> Settings:
@@ -94,6 +95,7 @@ async def test_live_decision_provider_validates_model_output() -> None:
     result = await provider.decide(_observation())
 
     assert result.decision is DecisionAction.SWITCH_SEARCH_PATTERN
+    assert captured[0]["max_tokens"] == 4096
     prompt = captured[0]["messages"][1]["content"]
     assert "ground_truth" not in prompt
     assert '"source"' not in prompt
@@ -203,3 +205,23 @@ def test_agent_observation_schema_has_no_truth_or_source_fields() -> None:
     assert "source" not in payload
     assert "source_x" not in payload
     assert "source_y" not in payload
+
+
+def test_agent_observation_reports_public_path_obstruction() -> None:
+    session = SimulationSession(
+        mission=default_mission_spec(), scenario=DISTURBED_CORRIDOR, seed=42
+    )
+    session.time_s = 6.0
+    session.controller.estimate = SourceEstimate(
+        x=8.0, y=5.0, confidence=0.9, samples=30, valid=True
+    )
+    orchestrator = BoundedOrchestrator(
+        session, DISTURBED_CORRIDOR, MockDecisionProvider(), max_decisions=1, max_replans=1
+    )
+    trigger = Trigger(ReasonCode.OBSTACLE_CHANGE, "public-wall", "Wall activated")
+    assert orchestrator._build_observation(trigger).direct_path_blocked is True
+
+    session.controller.estimate = SourceEstimate(
+        x=3.0, y=5.0, confidence=0.9, samples=30, valid=True
+    )
+    assert orchestrator._build_observation(trigger).direct_path_blocked is False

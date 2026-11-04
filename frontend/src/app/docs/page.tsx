@@ -8,6 +8,7 @@ import {
   ApiConsole,
   SafetyBrowser,
 } from "@/components/docs";
+import { InteractiveGuide } from "@/components/docs/interactive-guide";
 
 export const metadata: Metadata = {
   title: "Field Guide: System Architecture",
@@ -45,18 +46,6 @@ const diagram = [
   "  Eval --> UI",
 ].join("\n");
 
-const powershellSetup = [
-  "py -3 -m venv backend/.venv",
-  '.\\backend\\.venv\\Scripts\\python.exe -m pip install -e "backend[dev]"',
-  "npm ci --prefix frontend",
-  "Copy-Item .env.example .env",
-].join("\n");
-
-const powershellStart = [
-  ".\\backend\\.venv\\Scripts\\python.exe -m uvicorn app.main:app --app-dir backend --host 127.0.0.1 --port 8000",
-  "npm --prefix frontend run dev -- --hostname 127.0.0.1",
-].join("\n");
-
 export default function DocsPage() {
   return (
     <DocumentFrame active="docs">
@@ -77,7 +66,7 @@ export default function DocsPage() {
           <div className="doc-hero-meta">
             <span>SIMULATION ONLY</span>
             <span>SPECIFICATION V1.0</span>
-            <span>LAST REVIEWED OCT 30, 2026</span>
+                <span>LOCAL WORKBENCH</span>
           </div>
         </section>
 
@@ -246,8 +235,8 @@ export default function DocsPage() {
                 </article>
                 <article>
                   <span className="mode-dot mode-live" />
-                  <h3>Baseten live</h3>
-                  <p>When enabled, the backend sends a Chat Completions request using the configured server key and model. The key is never sent to the browser.</p>
+                  <h3>Live provider</h3>
+                  <p>Use the server&apos;s Baseten key or enter a key for Baseten, Meta, or Fireworks in the workbench. Browser-entered keys are kept in page memory and sent to the backend for live requests.</p>
                 </article>
               </div>
               <p className="docs-footnote">
@@ -259,8 +248,7 @@ export default function DocsPage() {
               <p className="doc-kicker">07: API CONSOLE & REFERENCE</p>
               <h2>Small HTTP surface, explicit contracts.</h2>
               <p>
-                Interact with the API console below to inspect request code in cURL, Python, or TypeScript,
-                alongside production JSON response payloads.
+                Send a read-only request to the running backend and inspect its actual response.
               </p>
               <ApiConsole />
             </section>
@@ -283,13 +271,11 @@ export default function DocsPage() {
             <section className="docs-section" id="setup">
               <p className="doc-kicker">09: LOCAL SETUP</p>
               <h2>Run the workbench on your machine.</h2>
-              <p>Python 3.11+, Node.js 20.9+, and npm are required. From PowerShell at the repository root:</p>
-              <pre className="code-block"><code>{powershellSetup}</code></pre>
-              <p>Start each service in its own terminal:</p>
-              <pre className="code-block"><code>{powershellStart}</code></pre>
+              <p>Follow the setup steps and a guided offline run. Commands are for PowerShell on Windows.</p>
+              <InteractiveGuide />
               <p>
                 The offline simulator runs with an empty <code>BASETEN_API_KEY</code>. Add the key only to the backend
-                environment file if you want live inference. Never add it to a <code>NEXT_PUBLIC_*</code> variable.
+                environment file if you want the Baseten server default, or enter a provider key in the workbench. Never add a key to a <code>NEXT_PUBLIC_*</code> variable.
               </p>
               <a className="doc-action" href="https://github.com/Erebuzzz/fieldweaver/blob/main/docs/API_SETUP.md" target="_blank" rel="noreferrer">
                 Full setup and API guide <span aria-hidden="true">↗</span>
@@ -304,7 +290,7 @@ export default function DocsPage() {
                 <li>It does not support multiple sources, physical mapping, manipulation, or team splitting.</li>
                 <li>Scene segmentation is disabled. Built-in scenarios are the supported path.</li>
                 <li>The API has no authentication or rate limiting and is intended for local development.</li>
-                <li>Evaluation uses three fixed seeds per scenario and does not establish general reliability.</li>
+                <li>Evaluation uses ten fixed seeds per scenario and does not establish general reliability.</li>
                 <li>No live Baseten request was made for the recorded evaluation results.</li>
               </ul>
               <div className="docs-policy-links">

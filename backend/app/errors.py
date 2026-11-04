@@ -3,6 +3,8 @@ from __future__ import annotations
 import logging
 import time
 import uuid
+from collections import deque
+from threading import Lock
 from typing import Any
 
 from fastapi import FastAPI, Request
@@ -15,6 +17,8 @@ from starlette.middleware.base import BaseHTTPMiddleware
 from app.config import get_settings
 
 logger = logging.getLogger("fieldweaver")
+_public_requests: deque[float] = deque()
+_public_requests_lock = Lock()
 
 
 class FieldWeaverError(Exception):
@@ -63,6 +67,24 @@ class RequestContextMiddleware(BaseHTTPMiddleware):
         request_id = uuid.uuid4().hex
         request.state.request_id = request_id
         started = time.perf_counter()
+        if (
+            get_settings().public_mode
+            and request.method == "POST"
+            and request.url.path in {"/api/missions/compile", "/api/simulations/run"}
+        ):
+            with _public_requests_lock:
+                while _public_requests and _public_requests[0] <= started - 60:
+                    _public_requests.popleft()
+                allowed = len(_public_requests) < 12
+                if allowed:
+                    _public_requests.append(started)
+            if not allowed:
+                return error_response(
+                    request,
+                    429,
+                    "rate_limited",
+                    "The public demo is busy. Please try again shortly.",
+                )
         response = await call_next(request)
         elapsed_ms = (time.perf_counter() - started) * 1000.0
         response.headers["X-Request-ID"] = request_id
@@ -83,9 +105,7 @@ def install_error_handlers(app: FastAPI) -> None:
         return error_response(request, exc.status_code, exc.code, exc.message, exc.details)
 
     @app.exception_handler(StarletteHTTPException)
-    async def handle_http_error(
-        request: Request, exc: StarletteHTTPException
-    ) -> JSONResponse:
+    async def handle_http_error(request: Request, exc: StarletteHTTPException) -> JSONResponse:
         code = "not_found" if exc.status_code == 404 else "http_error"
         message = str(exc.detail) if exc.detail else "HTTP request failed."
         return error_response(request, exc.status_code, code, message)

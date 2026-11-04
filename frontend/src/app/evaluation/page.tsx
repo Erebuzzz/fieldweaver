@@ -50,6 +50,8 @@ export default function EvaluationPage() {
   const baseline = evaluationReport.controller_summary.baseline;
   const seeds = evaluationReport.configuration.seeds;
   const scenarios = [...new Set(evaluationReport.runs.map((run) => run.scenario_id))];
+  const nominal = evaluationReport.runs.filter((run) => run.controller === "quadratic" && ["open_field", "noisy_open", "restricted_corridor", "disturbed_corridor"].includes(run.scenario_id));
+  const stress = evaluationReport.runs.filter((run) => run.controller === "quadratic" && ["near_boundary", "infeasible_enclosure", "far_source"].includes(run.scenario_id));
 
   return (
     <DocumentFrame active="evaluation">
@@ -100,7 +102,14 @@ export default function EvaluationPage() {
               <h2>{quadratic.success_count} of {quadratic.sample_count} quadratic runs converged.</h2>
               <p>
                 The baseline completed {baseline.success_count} of {baseline.sample_count} runs
-                under the same scenarios, seeds, mission limits, and safety filter.
+                under the same scenarios, seeds, mission limits, and safety filter. The quadratic
+                policy uses a mock recovery agent; the baseline runs with the agent off, so this
+                compares complete policies rather than isolated estimators.
+              </p>
+              <p>
+                Across the four nominal scenarios, {nominal.filter((run) => run.success).length} of {nominal.length} quadratic trials converged.
+                The three stress scenarios contributed {stress.filter((run) => run.success).length} of {stress.length} successes;
+                their infeasible routes and short time budget remain failures in the total above.
               </p>
               <div className="evaluation-kpis">
                 <div>

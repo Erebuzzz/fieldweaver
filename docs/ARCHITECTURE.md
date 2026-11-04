@@ -1,10 +1,9 @@
 # FieldWeaver Architecture
 
-The simulator and deterministic mock path are implemented and tested. Live Baseten
-inference remains unverified after two generic smoke requests returned empty content.
-The adapter uses Baseten's documented default output budget; see the
-[API setup guide](API_SETUP.md) for provider behavior. Phase 5 SAM remains deferred
-because supported access has not been verified.
+The simulator, deterministic mock, live Baseten compiler, and a live dynamic-obstacle
+agent path have been exercised. Individual live checks do not establish reliability.
+See the [API setup guide](API_SETUP.md) for provider behavior. SAM is outside the
+scope of this build.
 
 ## System view
 
@@ -147,7 +146,7 @@ All routes return a request ID header. Errors use
 - The browser Three.js scene consumes run data for presentation and has no authority
   over simulator state. The SVG renderer remains available as a manual and WebGL-failure
   fallback.
-- SAM 3.1 segmentation: deferred until an eligible endpoint and credential are verified.
+- SAM 3.1 segmentation: out of scope for this build.
 - Multiple sources, team splitting, moving sources: out of scope for the MVP.
 - Physical robot deployment, alternative model providers, persistence database: out of scope.
 - Formal safety guarantees: not claimed.

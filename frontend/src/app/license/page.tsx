@@ -59,7 +59,7 @@ export default function LicensePage() {
           <div className="license-matrix-grid">
             <div className="license-matrix-card perm-card">
               <div className="matrix-card-header">
-                <span className="matrix-icon">✓</span>
+                <span className="matrix-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12 4.5 4.5L19 7" /></svg></span>
                 <h3>PERMISSIONS</h3>
               </div>
               <ul className="matrix-list">
@@ -72,7 +72,7 @@ export default function LicensePage() {
 
             <div className="license-matrix-card cond-card">
               <div className="matrix-card-header">
-                <span className="matrix-icon">!</span>
+                <span className="matrix-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M12 5v9m0 4h.01" /></svg></span>
                 <h3>CONDITIONS</h3>
               </div>
               <ul className="matrix-list">
@@ -82,7 +82,7 @@ export default function LicensePage() {
 
             <div className="license-matrix-card limit-card">
               <div className="matrix-card-header">
-                <span className="matrix-icon">✕</span>
+                <span className="matrix-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m6 6 12 12M18 6 6 18" /></svg></span>
                 <h3>LIMITATIONS</h3>
               </div>
               <ul className="matrix-list">

@@ -55,3 +55,9 @@ scripts described above were added as new project work. The implementation was n
 copied from the two research repositories listed above.
 
 Last updated: October 30, 2026.
+
+Additional private research supplied by the developer is also background context only.
+Keep its contents and unpublished claims private. Do not copy its source, assets, or
+results into FieldWeaver, and do not publish details without explicit authorization.
+Research guarantees do not transfer to FieldWeaver without checking their assumptions
+against this implementation and independently validating the relevant claims.

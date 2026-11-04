@@ -28,6 +28,8 @@ class Settings:
     max_replans: int
     max_model_calls: int
     cors_origins: tuple[str, ...]
+    provider_name: str = "baseten"
+    public_mode: bool = False
 
     @property
     def provider_configured(self) -> bool:
@@ -68,6 +70,7 @@ def _bounded_float(name: str, default: float, low: float, high: float) -> float:
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
+    public_mode = os.getenv("FIELDWEAVER_PUBLIC_MODE", "").lower() == "true"
     key = os.getenv("BASETEN_API_KEY")
     key = key.strip() if key and key.strip() else None
     origins = os.getenv(
@@ -84,9 +87,7 @@ def get_settings() -> Settings:
         model_max_retries=_bounded_int(
             "FIELDWEAVER_MODEL_MAX_RETRIES", limits.MODEL_MAX_RETRIES, 0, 2
         ),
-        max_replans=_bounded_int(
-            "FIELDWEAVER_MAX_REPLANS", limits.DEFAULT_MAX_REPLANS, 0, 4
-        ),
+        max_replans=_bounded_int("FIELDWEAVER_MAX_REPLANS", limits.DEFAULT_MAX_REPLANS, 0, 4),
         max_model_calls=_bounded_int(
             "FIELDWEAVER_MAX_MODEL_CALLS",
             limits.DEFAULT_MAX_MODEL_CALLS,
@@ -94,6 +95,7 @@ def get_settings() -> Settings:
             limits.MAX_MODEL_CALLS_CEILING,
         ),
         cors_origins=tuple(origin.strip() for origin in origins.split(",") if origin.strip()),
+        public_mode=public_mode,
     )
 
 

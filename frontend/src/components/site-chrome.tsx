@@ -7,9 +7,18 @@ const navigation = [
   { href: "/", label: "Workbench", page: "workbench" },
   { href: "/docs", label: "Guide", page: "docs" },
   { href: "/evaluation", label: "Results", page: "evaluation" },
-  { href: "/privacy", label: "Privacy", page: "privacy" },
-  { href: "/security", label: "Security", page: "security" },
 ] as const;
+
+function NavigationIcon({ page }: { page: ActivePage }) {
+  const paths: Partial<Record<ActivePage, string>> = {
+    workbench: "M3 12 12 3l9 9-9 9z M7 12h10M12 7v10",
+    docs: "M4 5h6l2 2 2-2h6v14h-6l-2 2-2-2H4z M12 7v14",
+    evaluation: "M4 19h16M5 16l4-5 4 2 6-8M16 5h3v3",
+    privacy: "M5 10h14v10H5z M8 10V7a4 4 0 0 1 8 0v3 M12 14v3",
+    security: "M12 3 20 6v5c0 5-3 8-8 10-5-2-8-5-8-10V6z M8 12l3 3 5-6",
+  };
+  return <svg className="navigation-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d={paths[page]} /></svg>;
+}
 
 export function SiteHeader({
   active,
@@ -32,13 +41,13 @@ export function SiteHeader({
       <Link className="brand" href="/" aria-label="FieldWeaver home">
         <span className="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 32 32" fill="none">
-            <circle cx="16" cy="16" r="10.5" />
-            <circle cx="16" cy="16" r="2.6" />
-            <path d="M16 1.5v6M16 24.5v6M1.5 16h6M24.5 16h6M5.75 5.75l4.4 4.4m11.7 11.7 4.4 4.4m0-20.5-4.4 4.4m-11.7 11.7-4.4 4.4" />
+            <path d="M5 11.5 16 5l11 6.5v9L16 27 5 20.5z" />
+            <path d="M5 11.5 16 18l11-6.5M5 20.5 16 14l11 6.5M16 5v9m0 4v9" />
+            <circle cx="16" cy="16" r="2.2" fill="currentColor" stroke="none" />
           </svg>
         </span>
         <span className="brand-name">FieldWeaver</span>
-        <span className="brand-edition">TACTICAL SIM 01</span>
+        <span className="brand-edition">SIMULATION STUDIO</span>
       </Link>
 
       <nav className="site-nav" aria-label="Main navigation">
@@ -49,6 +58,7 @@ export function SiteHeader({
             aria-current={active === item.page ? "page" : undefined}
             className={active === item.page ? "site-nav-link is-active" : "site-nav-link"}
           >
+            <NavigationIcon page={item.page} />
             {item.label}
           </Link>
         ))}

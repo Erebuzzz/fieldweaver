@@ -117,6 +117,11 @@ def validate_transition(
         return issues
     max_speed = mission.constraints.maximum_speed
     for before, after in zip(previous, current, strict=True):
+        if before.robot_id != after.robot_id:
+            issues.append(
+                ValidationIssue("invalid_transition", None, "robot identity changed during a step")
+            )
+            continue
         if not all(
             math.isfinite(value)
             for value in (before.x, before.y, after.x, after.y, before.heading, after.heading)
@@ -132,6 +137,44 @@ def validate_transition(
                     f"instantaneous speed {speed:.3f} m/s exceeds {max_speed:.3f} m/s",
                 )
             )
+    for index, (left_before, left_after) in enumerate(zip(previous, current, strict=True)):
+        for right_before, right_after in zip(
+            previous[index + 1 :], current[index + 1 :], strict=True
+        ):
+            values = (
+                left_before.x,
+                left_before.y,
+                left_after.x,
+                left_after.y,
+                right_before.x,
+                right_before.y,
+                right_after.x,
+                right_after.y,
+            )
+            if not all(math.isfinite(value) for value in values):
+                continue
+            dx = left_before.x - right_before.x
+            dy = left_before.y - right_before.y
+            vx = (left_after.x - left_before.x) - (right_after.x - right_before.x)
+            vy = (left_after.y - left_before.y) - (right_after.y - right_before.y)
+            motion_sq = vx * vx + vy * vy
+            t = max(0.0, min(1.0, -(dx * vx + dy * vy) / motion_sq)) if motion_sq else 0.0
+            distance = math.hypot(dx + t * vx, dy + t * vy)
+            end_distance = math.hypot(left_after.x - right_after.x, left_after.y - right_after.y)
+            separation = mission.constraints.minimum_robot_separation
+            if (
+                distance < separation - limits.NUMERIC_EPSILON
+                and end_distance >= separation - limits.NUMERIC_EPSILON
+            ):
+                issues.append(
+                    ValidationIssue(
+                        "robot_separation",
+                        left_after.robot_id,
+                        f"swept separation {distance:.3f} m to robot {right_after.robot_id} "
+                        f"is below {separation:.3f} m",
+                        related_robot_id=right_after.robot_id,
+                    )
+                )
     return issues
 
 
@@ -191,9 +234,7 @@ class SafetyFilter:
             )
             if not issues:
                 interventions: tuple[SafetyIntervention, ...] = ()
-                affected = sorted(
-                    robot_id for robot_id, scale in scales.items() if scale < 1.0
-                )
+                affected = sorted(robot_id for robot_id, scale in scales.items() if scale < 1.0)
                 if affected:
                     kinds = {scales[robot_id] for robot_id in affected}
                     interventions = (

@@ -2,45 +2,37 @@
 
 ## Preparation
 
-Start the backend and frontend using `API_SETUP.md`. Select `Offline mock` for both
-the compiler and agent so the demo makes no external model calls, even when a server
-key is configured. Use the `Dynamic barrier` scenario, seed `42`, and the quadratic
-controller.
+Start the backend and frontend using `API_SETUP.md`, with `BASETEN_API_KEY` available
+only to the backend. Select `Dynamic barrier`, seed `42`, the quadratic controller,
+and `Baseten live` for both the compiler and agent. The user has authorized Baseten
+development usage. Never show or paste the key.
 
-Exact mission text:
+Mission text:
 
 > Search for the signal source, maintain a ring formation, and avoid restricted regions.
 
-The primary browser flow was exercised against the local UI and API in Playwright. It
-has not been recorded as a spoken presentation, so the timestamps below remain a
-presentation target. The ten-seed summary in `EVALUATION_RESULTS.md` is the recorded
-comparison, not a live inference result.
+On November 4, 2026, this browser flow compiled a live mission, received operator
+approval, and converged after one live obstacle-change decision and validated detour.
+It reported zero collisions and zero safety interventions. Model output can vary, so
+review the specification and report the actual run rather than fixed numbers. The
+walkthrough below is a timing target, not a recorded spoken rehearsal.
 
 ## Walkthrough
 
-| Target time | Action and narration | Expected evidence |
+| Target time | Action and narration | Evidence to show |
 | --- | --- | --- |
-| 0:00-0:20 | Explain that the robots must locate a hidden scalar-field source without receiving its coordinate. | Mission control shows `Simulation only` and `Offline mock`. |
-| 0:20-0:40 | Enter the exact mission text. Select `Dynamic barrier`, seed `42`, `Offline mock` compiler and agent, and `Quadratic estimator`. | The scenario is described as a seeded obstacle-change run. |
-| 0:40-1:00 | Select **Compile mission** and review the validated specification, assumptions, and safety limits. Check the approval box. | Provider label says `Offline mock`; mission review is visible before execution. |
-| 1:00-1:45 | Select **Run approved mission**. While it runs, explain that the dynamic obstacle activates at simulation time 6 seconds and decisions occur only at event checkpoints. | The arena animates robot paths and estimate. The run should finish successfully at about 29.7 simulated seconds for this seed. |
-| 1:45-2:10 | Pause or scrub the playback and inspect the evaluation panel. | Seed 42 previously measured 0.000 m localization error, 0.025 m formation error, 0.595 m minimum separation, 0.245 m obstacle clearance, 56.80 m total path, and zero collisions. Values are trajectory-derived. |
-| 2:10-2:30 | Expand the agent and safety trace. | Trace shows the obstacle-change event, one offline mock decision, a validated per-robot detour, and one replan. No safety intervention was recorded in this run. |
-| 2:30-2:50 | Open `/evaluation` and describe the paired 140-run results. Offer the raw JSON download. | State the measured results honestly: quadratic 31/70 successes and baseline 0/70; all failures are retained. The disturbed scenario recovered in 10/10 seeds. |
-| 2:50-3:00 | Close with limits. | Say live Baseten inference remains unverified, the source-localization task has one source, and ten fixed seeds do not establish general reliability. |
+| 0:00-0:20 | Introduce the hidden scalar source and simulation-only scope. | Mission workspace and provider status. |
+| 0:20-0:45 | Choose Dynamic barrier and seed 42; select the two live Baseten modes. | Scenario and explicit provider modes. |
+| 0:45-1:05 | Compile, review the validated specification and assumptions, and approve it. | Baseten live label and approval gate. |
+| 1:05-1:45 | Run the mission; explain that the model is invoked at events, not on each simulation tick. | Arena playback, source estimate, and obstacle event. |
+| 1:45-2:10 | Open run results and describe the observed trajectory metrics. | Actual localization, formation, separation, clearance, and collision results. |
+| 2:10-2:30 | Expand the run trace. | Decision provider, obstacle event, decision, validator outcome, and interventions. |
+| 2:30-2:50 | Open the paired evaluation. | Quadratic 40/70 and baseline 0/70; 30 quadratic cases intentionally test infeasibility or timeout. The fixed suite uses a mock agent. |
+| 2:50-3:00 | State limits. | Simulation only; single source; ten fixed seeds do not establish general reliability. |
 
-## Recovery path
+## Recovery
 
-- If the backend is unavailable, check `GET /api/health` at `127.0.0.1:8000` and
-  restart the local services from `API_SETUP.md`.
-- If a run fails for a different seed or local code change, show the recorded
-  termination and safety trace. Do not present a failed run as a success or change its
-  acceptance criteria.
-- If asked to demonstrate unsupported multi-source intent, enter “Find two sources
-  with a ring formation and avoid restricted areas.” The offline compiler should return
-  a clarification prompt and disable approval and run until the mission is corrected.
-- Do not select `Baseten live` unless a key has been configured server-side and a
-  successful request has actually been verified. Never show or paste the key.
-
-The browser flow and unsupported-request guard were manually exercised. The full
-three-minute spoken presentation has not been timed or recorded.
+If the live provider is unavailable or returns a rejected response, show the error and
+switch both modes to `Offline mock` for the deterministic demonstration. Label the
+fallback and do not present it as live inference. If a trial fails, show its actual
+termination and trace. SAM 3.1 is outside this build's scope.

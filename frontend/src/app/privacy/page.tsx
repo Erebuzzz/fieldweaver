@@ -22,14 +22,14 @@ const boundaryData = [
   },
   {
     tier: "Transmitted if Live",
-    badge: "BASETEN TLS",
+    badge: "SELECTED PROVIDER",
     status: "live",
     scope: "Mission Compilation & Bounded Events",
     items: [
       "Natural language mission text prompt entered by operator",
       "Public arena bounds and static obstacle counts (no source truth)",
       "Intermittent event checkpoint observations (e.g., team centroid, safety count)",
-      "Backend server key used via TLS; key never transmitted to browser"
+      "Browser-entered keys are sent to the backend for live requests"
     ]
   },
   {
@@ -110,7 +110,7 @@ export default function PrivacyPage() {
           <aside className="policy-summary" aria-label="Privacy summary">
             <p className="doc-kicker">AT A GLANCE</p>
             <div><i>01</i><span>Requests go to the local API by default.</span></div>
-            <div><i>02</i><span>Live mode sends prompt or event data to Baseten.</span></div>
+            <div><i>02</i><span>Live mode sends prompt or event data to the selected provider.</span></div>
             <div><i>03</i><span>The latest run is held in API process memory.</span></div>
             <div><i>04</i><span>There is no account or central FieldWeaver database.</span></div>
           </aside>
@@ -144,13 +144,13 @@ export default function PrivacyPage() {
 
             <section className="docs-section">
               <p className="doc-kicker">03: LIVE INFERENCE</p>
-              <h2>Live mode sends data to Baseten.</h2>
+              <h2>Live mode sends data to the selected provider.</h2>
               <p>
                 When the compiler or agent is set to live, or to automatic mode while a backend key is configured,
-                the backend calls the Baseten Chat Completions endpoint. Mission compilation sends the mission text
+                the backend calls the selected provider&apos;s Chat Completions endpoint. Mission compilation sends the mission text
                 and a public summary of the selected scenario. Event-driven agent calls send a bounded observation
                 summary, such as the current estimate, team centroid, safety state, and allowed action list.
-                The backend API key is not sent to the browser.
+                A server-configured key is not sent to the browser. A key entered in the browser remains in page memory and is sent to the backend for each live request.
               </p>
               <div className="doc-callout">
                 <span className="callout-mark" aria-hidden="true">!</span>

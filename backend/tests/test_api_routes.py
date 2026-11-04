@@ -2,7 +2,10 @@ from __future__ import annotations
 
 from fastapi.testclient import TestClient
 
+from app.config import get_settings, reset_settings_cache
+from app.errors import _public_requests
 from app.schemas import default_mission_spec
+from app.services.provider import BasetenClient, ChatResult
 
 
 def _keys(value: object) -> set[str]:
@@ -47,6 +50,56 @@ def test_compile_route_returns_validated_spec_and_mock_label(client: TestClient)
     assert body["provider"]["name"] == "mock"
     assert body["provider"]["live_verified"] is False
     assert body["request_id"] == response.headers["x-request-id"]
+
+
+def test_byok_provider_is_request_scoped_and_never_returned(
+    client: TestClient, monkeypatch
+) -> None:
+    observed = []
+
+    async def fake_chat(self, messages, **kwargs):
+        observed.append(
+            (
+                self.settings.provider_name,
+                self.settings.baseten_base_url,
+                self.settings.baseten_model,
+                self.settings.baseten_api_key,
+            )
+        )
+        return ChatResult(
+            default_mission_spec().model_dump_json(), 1.0, self.settings.baseten_model
+        )
+
+    monkeypatch.setattr(BasetenClient, "chat", fake_chat)
+    for name, url in (
+        ("meta", "https://api.meta.ai/v1"),
+        ("fireworks", "https://api.fireworks.ai/inference/v1"),
+    ):
+        response = client.post(
+            "/api/missions/compile",
+            json={
+                "mission_text": "Locate one source.",
+                "mode": "live",
+                "provider": {"name": name, "model": "test-model", "api_key": "private-test-key"},
+            },
+        )
+        assert response.status_code == 200
+        assert response.json()["provider"]["name"] == name
+        assert "private-test-key" not in response.text
+        assert observed[-1] == (name, url, "test-model", "private-test-key")
+    assert client.get("/api/health").json()["provider"]["name"] == "baseten"
+
+
+def test_provider_key_is_not_exposed_by_validation_errors(client: TestClient) -> None:
+    response = client.post(
+        "/api/missions/compile",
+        json={
+            "mission_text": "Locate one source.",
+            "provider": {"name": "unknown", "model": "test", "api_key": "private-test-key"},
+        },
+    )
+    assert response.status_code == 422
+    assert "private-test-key" not in response.text
 
 
 def test_unsupported_compile_requires_clarification_before_approval(client: TestClient) -> None:
@@ -100,6 +153,40 @@ def test_latest_evaluation_is_explicitly_empty_before_a_run(client: TestClient) 
 
     assert response.status_code == 404
     assert response.json()["error"]["code"] == "evaluation_not_found"
+
+
+def test_public_mode_keeps_server_key_private_and_disables_shared_latest_run(
+    client: TestClient, monkeypatch
+) -> None:
+    monkeypatch.setenv("FIELDWEAVER_PUBLIC_MODE", "true")
+    monkeypatch.setenv("BASETEN_API_KEY", "private-server-key")
+    reset_settings_cache()
+    assert get_settings().provider_configured is True
+    health = client.get("/api/health")
+    assert health.json()["provider"]["configured"] is True
+    assert "private-server-key" not in health.text
+    response = client.get("/api/evaluations/latest")
+    assert response.status_code == 404
+    assert response.json()["error"]["code"] == "evaluation_not_available"
+
+
+def test_public_mode_limits_expensive_requests(client: TestClient, monkeypatch) -> None:
+    monkeypatch.setenv("FIELDWEAVER_PUBLIC_MODE", "true")
+    reset_settings_cache()
+    _public_requests.clear()
+    try:
+        for _ in range(12):
+            response = client.post(
+                "/api/missions/compile", json={"mission_text": "Locate one source.", "mode": "mock"}
+            )
+            assert response.status_code == 200
+        response = client.post(
+            "/api/missions/compile", json={"mission_text": "Locate one source.", "mode": "mock"}
+        )
+        assert response.status_code == 429
+        assert response.json()["error"]["code"] == "rate_limited"
+    finally:
+        _public_requests.clear()
 
 
 def test_run_route_returns_actual_result_and_latest_evaluation(client: TestClient) -> None:

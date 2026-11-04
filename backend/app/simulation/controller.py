@@ -449,7 +449,7 @@ class FormationController:
                 vx = 0.0
                 vy = 0.0
             commands.append(_clamp_command(vx, vy, speed_limit))
-        return tuple(commands)
+        return _separate_closing_commands(observation, commands, separation, speed_limit)
 
     def _travel_targets(
         self,
@@ -497,6 +497,36 @@ class FormationController:
         }
         goals = self.ring_slot_targets(positions, center_x, center_y, radius)
         return {robot_id: (point.x, point.y) for robot_id, point in goals.items()}
+
+
+def _separate_closing_commands(
+    observation: TeamObservation,
+    commands: list[RobotCommand],
+    separation: float,
+    speed_limit: float,
+) -> tuple[RobotCommand, ...]:
+    """Remove closing velocity near another robot before the safety filter runs."""
+    velocities = [[command.vx, command.vy] for command in commands]
+    for _ in range(3):
+        for left in range(len(observation.robots)):
+            for right in range(left + 1, len(observation.robots)):
+                first = observation.robots[left]
+                second = observation.robots[right]
+                dx, dy = first.x - second.x, first.y - second.y
+                distance = math.hypot(dx, dy)
+                if distance <= 1e-9 or distance >= separation + 0.08:
+                    continue
+                nx, ny = dx / distance, dy / distance
+                closing = (velocities[left][0] - velocities[right][0]) * nx + (
+                    velocities[left][1] - velocities[right][1]
+                ) * ny
+                if closing < 0:
+                    correction = -closing / 2.0
+                    velocities[left][0] += correction * nx
+                    velocities[left][1] += correction * ny
+                    velocities[right][0] -= correction * nx
+                    velocities[right][1] -= correction * ny
+    return tuple(_clamp_command(vx, vy, speed_limit) for vx, vy in velocities)
 
 
 def _clamp_command(vx: float, vy: float, speed_limit: float) -> RobotCommand:

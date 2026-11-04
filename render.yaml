@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: fieldweaver-api
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    autoDeploy: false
+    envVars:
+      - key: FIELDWEAVER_PUBLIC_MODE
+        value: "true"
+      - key: BASETEN_API_KEY
+        sync: false
+      - key: FIELDWEAVER_CORS_ORIGINS
+        value: https://fieldweaver.erebuzzz.tech

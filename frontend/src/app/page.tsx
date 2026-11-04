@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 
 import { ArenaContainer } from "@/components/arena-container";
 import { SiteFooter, SiteHeader } from "@/components/site-chrome";
+import { Spinner } from "@/components/wensity/spinner";
 import { apiRequest } from "@/lib/api";
 import type {
   CompileResponse,
@@ -19,6 +20,7 @@ const EXAMPLE_MISSION =
 type ProviderMode = "auto" | "mock" | "live";
 type AgentMode = "auto" | "off" | "mock" | "live";
 type Controller = "quadratic" | "baseline";
+type ProviderName = "baseten" | "meta" | "fireworks";
 type CompiledMission = {
   result: CompileResponse;
   scenarioId: string;
@@ -36,12 +38,17 @@ function metricLabel(value: number | null | undefined, suffix = "", digits = 2):
 }
 
 export default function Home() {
+  const [workspaceView, setWorkspaceView] = useState<"mission" | "arena" | "results">("mission");
   const [health, setHealth] = useState<Health | null>(null);
   const [scenarios, setScenarios] = useState<Scenario[]>([]);
   const [seedDefault, setSeedDefault] = useState(42);
   const [scenarioId, setScenarioId] = useState("open_field");
   const [missionText, setMissionText] = useState(EXAMPLE_MISSION);
+  const [swarmPreset, setSwarmPreset] = useState("custom");
   const [providerMode, setProviderMode] = useState<ProviderMode>("auto");
+  const [providerName, setProviderName] = useState<ProviderName>("baseten");
+  const [providerKey, setProviderKey] = useState("");
+  const [providerModel, setProviderModel] = useState("meta-models/muse-spark-open-1026");
   const [agentMode, setAgentMode] = useState<AgentMode>("auto");
   const [controller, setController] = useState<Controller>("quadratic");
   const [seed, setSeed] = useState("42");
@@ -57,23 +64,35 @@ export default function Home() {
 
   useEffect(() => {
     let active = true;
-    Promise.all([
-      apiRequest<Health>("/api/health"),
-      apiRequest<ScenarioListResponse>("/api/scenarios"),
-    ])
-      .then(([healthResponse, scenarioResponse]) => {
+    let timer: number | undefined;
+    let attempts = 0;
+    const connect = async () => {
+      try {
+        const [healthResponse, scenarioResponse] = await Promise.all([
+          apiRequest<Health>("/api/health"),
+          apiRequest<ScenarioListResponse>("/api/scenarios"),
+        ]);
         if (!active) return;
+        setApiError(null);
         setHealth(healthResponse);
         setScenarios(scenarioResponse.scenarios);
         setSeedDefault(scenarioResponse.seed.default);
         setSeed(String(scenarioResponse.seed.default));
-      })
-      .catch((reason: unknown) => {
+      } catch {
         if (!active) return;
-        setApiError(reason instanceof Error ? reason.message : "The backend could not be reached.");
-      });
+        attempts += 1;
+        if (attempts < 8) {
+          setApiError("The backend may be waking up. Retrying connection...");
+          timer = window.setTimeout(connect, 10_000);
+        } else {
+          setApiError("The backend could not be reached. Check the service and refresh this page.");
+        }
+      }
+    };
+    void connect();
     return () => {
       active = false;
+      if (timer !== undefined) window.clearTimeout(timer);
     };
   }, []);
 
@@ -124,6 +143,14 @@ export default function Home() {
       setActionError("Enter a mission before compiling it.");
       return;
     }
+    if (providerName !== "baseten" && !providerKey && providerMode !== "mock") {
+      setActionError("Enter an API key for the selected provider, or choose the offline mock.");
+      return;
+    }
+    if (providerKey && providerMode !== "mock" && !providerModel.trim()) {
+      setActionError("Enter a model ID available to your provider account.");
+      return;
+    }
     setBusy("compile");
     setActionError(null);
     setResult(null);
@@ -133,6 +160,7 @@ export default function Home() {
         mission_text: missionText,
         scenario_id: scenarioId,
         mode: providerMode,
+        provider: providerKey && providerMode !== "mock" ? { name: providerName, model: providerModel, api_key: providerKey } : null,
       });
       setCompiled({ result: response, scenarioId, missionText });
       setApproved(false);
@@ -147,6 +175,10 @@ export default function Home() {
 
   async function runSimulation() {
     if (!activeCompile || !approved) return;
+    if (providerName !== "baseten" && !providerKey && agentMode !== "off" && agentMode !== "mock") {
+      setActionError("Enter an API key for the selected provider, or use offline agent decisions.");
+      return;
+    }
     const parsedSeed = Number(seed);
     if (!Number.isInteger(parsedSeed) || parsedSeed < 0 || parsedSeed > 2_147_483_647) {
       setActionError("Seed must be a whole number between 0 and 2,147,483,647.");
@@ -164,8 +196,10 @@ export default function Home() {
         seed: parsedSeed,
         controller,
         agent_mode: agentMode,
+        provider: providerKey && agentMode !== "mock" && agentMode !== "off" ? { name: providerName, model: providerModel, api_key: providerKey } : null,
       });
       setResult(response);
+      setWorkspaceView("arena");
       setFrameIndex(0);
       setPlaying(response.frames.length > 1);
     } catch (reason) {
@@ -182,6 +216,7 @@ export default function Home() {
 
   function editMission(nextText: string) {
     setMissionText(nextText);
+    setSwarmPreset("custom");
     invalidateMission();
   }
 
@@ -208,7 +243,7 @@ export default function Home() {
         </div>
       </div>
 
-      <nav className="workflow-rail" aria-label="Mission workflow">
+      <nav className="workflow-rail" aria-label="Mission progress">
         <span className="workflow-label">WORKFLOW</span>
         {[
           [1, "Describe"],
@@ -241,8 +276,23 @@ export default function Home() {
         </div>
       ) : null}
 
-      <section className="workspace-grid" aria-label="Mission and simulation workspace">
-        <aside className="mission-column">
+      <nav className="workspace-views" aria-label="Workspace views">
+        <button type="button" className={workspaceView === "mission" ? "is-active" : ""} aria-pressed={workspaceView === "mission"} onClick={() => setWorkspaceView("mission")}>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 12 12 3l9 9-9 9z M7 12h10M12 7v10" /></svg>
+          Mission
+        </button>
+        <button type="button" className={workspaceView === "arena" ? "is-active" : ""} aria-pressed={workspaceView === "arena"} onClick={() => setWorkspaceView("arena")}>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 7.5 12 3l9 4.5v9L12 21l-9-4.5z M3 7.5l9 4.5 9-4.5M12 12v9" /></svg>
+          Arena
+        </button>
+        <button type="button" className={workspaceView === "results" ? "is-active" : ""} aria-pressed={workspaceView === "results"} onClick={() => setWorkspaceView("results")}>
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 19h18M5 16l4-5 4 2 6-8M16 5h3v3" /></svg>
+          Run results {result ? <span className="view-indicator" aria-label="Available" /> : null}
+        </button>
+      </nav>
+
+      <section className={`workspace-grid view-${workspaceView}`} aria-label="Mission and simulation workspace">
+        <aside className="mission-column" hidden={workspaceView !== "mission"}>
           <div className="section-heading">
             <span className="section-index">01</span>
             <div>
@@ -264,6 +314,23 @@ export default function Home() {
           <button className="example-link" type="button" onClick={() => editMission(EXAMPLE_MISSION)}>
             Use example mission
           </button>
+          <label className="field-group" htmlFor="swarm-preset">
+            <span className="field-label">Swarm preset</span>
+            <select id="swarm-preset" value={swarmPreset} onChange={(event) => {
+              const presets: Record<string, string> = {
+                compact: "Locate one signal source with 4 robots in a ring radius of 1.0 metres, avoiding restricted regions.",
+                balanced: "Locate one signal source with 6 robots in a ring radius of 1.5 metres, avoiding restricted regions.",
+                wide: "Locate one signal source with 8 robots in a ring radius of 2.0 metres, avoiding restricted regions.",
+              };
+              if (presets[event.target.value]) editMission(presets[event.target.value]);
+              setSwarmPreset(event.target.value);
+            }}>
+              <option value="custom">Custom mission</option>
+              <option value="compact">Compact ring · 4 robots</option>
+              <option value="balanced">Balanced ring · 6 robots</option>
+              <option value="wide">Wide ring · 8 robots</option>
+            </select>
+          </label>
 
           <div className="field-row">
             <label className="field-group" htmlFor="scenario-select">
@@ -296,13 +363,44 @@ export default function Home() {
             {selectedScenario?.description ?? "Loading arena descriptions..."}
           </p>
 
+          <details className="advanced-settings">
+            <summary>Advanced settings</summary>
+          <div className="field-row field-row-small">
+            <label className="field-group" htmlFor="provider-select">
+              <span className="field-label">Inference provider</span>
+              <select id="provider-select" value={providerName} onChange={(event) => {
+                const name = event.target.value as ProviderName;
+                setProviderName(name);
+                setProviderKey("");
+                setProviderModel(name === "baseten" ? "meta-models/muse-spark-open-1026" : name === "meta" ? "muse-spark-1.3" : "");
+                invalidateMission();
+              }}>
+                <option value="baseten">Baseten</option>
+                <option value="meta">Meta Model API</option>
+                <option value="fireworks">Fireworks</option>
+              </select>
+            </label>
+            <label className="field-group" htmlFor="provider-model">
+              <span className="field-label">Model ID</span>
+              <input id="provider-model" list="provider-model-options" value={providerModel} onChange={(event) => { setProviderModel(event.target.value); invalidateMission(); }} placeholder="Enter an available model ID" autoComplete="off" />
+              <datalist id="provider-model-options">
+                {providerName === "meta" ? <><option value="muse-wonder-1.0" /><option value="muse-spark-1.3" /><option value="muse-spark-1.2" /></> : null}
+                {providerName === "baseten" ? <option value="meta-models/muse-spark-open-1026" /> : null}
+              </datalist>
+            </label>
+          </div>
+          <label className="field-group" htmlFor="provider-key">
+            <span className="field-label">API key {providerName === "baseten" ? "(optional)" : "(required)"}</span>
+            <input id="provider-key" type="password" value={providerKey} onChange={(event) => { setProviderKey(event.target.value); invalidateMission(); }} autoComplete="off" />
+          </label>
+          <p className="scenario-description">Kept in this page until cleared or closed. Your selected provider processes mission and agent requests. Use HTTPS for remote connections.</p>
           <div className="field-row field-row-small">
             <label className="field-group" htmlFor="compiler-mode">
               <span className="field-label">Mission compiler</span>
               <select id="compiler-mode" value={providerMode} onChange={(event) => setProviderMode(event.target.value as ProviderMode)}>
                 <option value="auto">Automatic</option>
                 <option value="mock">Offline mock</option>
-                <option value="live">Baseten live</option>
+                <option value="live">Selected provider live</option>
               </select>
             </label>
             <label className="field-group" htmlFor="agent-mode">
@@ -311,7 +409,7 @@ export default function Home() {
                 <option value="auto">Automatic</option>
                 <option value="off">Off</option>
                 <option value="mock">Offline mock</option>
-                <option value="live">Baseten live</option>
+                <option value="live">Selected provider live</option>
               </select>
             </label>
           </div>
@@ -325,24 +423,26 @@ export default function Home() {
             </label>
           </div>
 
+          </details>
+
           <button
             className="primary-button compile-button"
             type="button"
             onClick={compileMission}
             disabled={busy !== null || !health || !missionText.trim()}
           >
-            {busy === "compile" ? <span className="button-spinner" /> : <span className="compile-glyph">↳</span>}
+            {busy === "compile" ? <Spinner label="Compiling mission" /> : <span className="compile-glyph">↳</span>}
             {busy === "compile" ? "Compiling" : "Compile mission"}
           </button>
 
           {activeCompile ? (
             <div className="compile-result" aria-live="polite">
               <div className="compile-result-heading">
-                <span className="check-mark">✓</span>
+                <span className="check-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m5 12 4.5 4.5L19 7" /></svg></span>
                 <div>
                   <strong>Validated specification</strong>
                   <span className={`provider-detail ${activeCompile.provider.mode}`}>
-                    {activeCompile.provider.mode === "live" ? "Baseten live" : "Offline mock"}
+                    {activeCompile.provider.mode === "live" ? `${activeCompile.provider.name} live` : "Offline mock"}
                     <span> · </span>{activeCompile.provider.model}
                   </span>
                 </div>
@@ -390,7 +490,7 @@ export default function Home() {
                 onClick={runSimulation}
                 disabled={!missionReady || busy !== null || !selectedScenario}
               >
-                {busy === "run" ? <span className="button-spinner" /> : <span className="run-glyph">▶</span>}
+                {busy === "run" ? <Spinner label="Running simulation" /> : <svg className="run-glyph" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5 19 12 7 19.5z" /></svg>}
                 {busy === "run" ? "Running simulation" : "Run approved mission"}
               </button>
             </div>
@@ -402,7 +502,7 @@ export default function Home() {
           )}
         </aside>
 
-        <section className="arena-column" aria-label="Simulation arena">
+        <section className="arena-column" aria-label="Simulation arena" hidden={workspaceView === "results"}>
           <div className="section-heading arena-heading">
             <span className="section-index">02</span>
             <div className="arena-title">
@@ -435,7 +535,7 @@ export default function Home() {
                 disabled={!result || busy !== null}
                 aria-label={playing ? "Pause playback" : "Play playback"}
               >
-                {playing ? "Ⅱ" : "▶"}
+                <svg className="playback-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">{playing ? <path d="M7 5h3v14H7zm7 0h3v14h-3z" /> : <path d="M7 4.5 19 12 7 19.5z" />}</svg>
               </button>
               <button
                 className="reset-button"
@@ -470,6 +570,10 @@ export default function Home() {
           </div>
 
           {result ? (
+            <button className="results-link" type="button" onClick={() => setWorkspaceView("results")}>View run results <span aria-hidden="true">→</span></button>
+          ) : null}
+
+          {result ? (
             <div className="arena-caption">
               <span>Seed {result.seed}</span>
               <span>Frame {frameIndex + 1} of {result.frames.length}</span>
@@ -483,7 +587,7 @@ export default function Home() {
           )}
         </section>
 
-        <aside className="inspector-column">
+        <aside className="inspector-column" hidden={workspaceView !== "results"}>
           <div className="section-heading">
             <span className="section-index">03</span>
             <div>
@@ -538,7 +642,8 @@ export default function Home() {
         </aside>
       </section>
 
-      <section className="trace-section" aria-label="Agent and safety trace">
+      <details className="trace-section" aria-label="Agent and safety trace" hidden={workspaceView !== "results"}>
+        <summary className="trace-disclosure">Inspect run trace</summary>
         <div className="trace-heading">
           <div className="section-heading">
             <span className="section-index">04</span>
@@ -594,7 +699,7 @@ export default function Home() {
         ) : (
           <div className="trace-placeholder">Trace details appear after a simulation run.</div>
         )}
-      </section>
+      </details>
 
       <div className="app-meta">
         <span>FieldWeaver · deterministic simulation</span>

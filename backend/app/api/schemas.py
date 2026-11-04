@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Annotated, Any, Literal
 
-from pydantic import Field, StringConstraints
+from pydantic import Field, SecretStr, StringConstraints
 
 from app.schemas import MissionSpec, StrictModel
 
@@ -58,10 +58,17 @@ class RootResponse(StrictModel):
     documentation: str
 
 
+class ProviderSelection(StrictModel):
+    name: Literal["baseten", "meta", "fireworks"]
+    model: str = Field(min_length=1, max_length=200, pattern=r"^[A-Za-z0-9._/-]+$")
+    api_key: SecretStr = Field(min_length=1, max_length=4096)
+
+
 class MissionCompileRequest(StrictModel):
     mission_text: MissionText
     scenario_id: str = Field(default="open_field", min_length=1, max_length=80)
     mode: Literal["auto", "mock", "live"] = "auto"
+    provider: ProviderSelection | None = None
 
 
 class ScenarioPublic(StrictModel):
@@ -87,7 +94,7 @@ class ScenarioListResponse(StrictModel):
 
 class CompileProviderMetadata(StrictModel):
     mode: Literal["mock", "live"]
-    name: Literal["mock", "baseten"]
+    name: Literal["mock", "baseten", "meta", "fireworks"]
     model: str
     latency_ms: float = Field(ge=0)
     live_verified: bool
@@ -107,6 +114,7 @@ class SimulationRunRequest(StrictModel):
     seed: int = Field(default=42, ge=0, le=2**31 - 1)
     controller: Literal["quadratic", "baseline"] = "quadratic"
     agent_mode: Literal["off", "auto", "mock", "live"] = "auto"
+    provider: ProviderSelection | None = None
 
 
 class SimulationRunResponse(StrictModel):

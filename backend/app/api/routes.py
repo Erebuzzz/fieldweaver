@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from dataclasses import replace
+
 from fastapi import APIRouter, Request
 
 from app import limits
@@ -9,6 +11,7 @@ from app.api.schemas import (
     MissionCompileRequest,
     MissionCompileResponse,
     ProviderPublic,
+    ProviderSelection,
     RootResponse,
     SafetyEnvelopePublic,
     ScenarioListResponse,
@@ -29,6 +32,25 @@ from app.services.runner import (
 from app.simulation.scenario import get_scenario, list_public_scenarios
 
 router = APIRouter()
+
+_PROVIDER_URLS = {
+    "baseten": "https://inference.baseten.co/v1",
+    "meta": "https://api.meta.ai/v1",
+    "fireworks": "https://api.fireworks.ai/inference/v1",
+}
+
+
+def _request_settings(selection: ProviderSelection | None):  # type: ignore[no-untyped-def]
+    settings = get_settings()
+    if selection is None:
+        return settings
+    return replace(
+        settings,
+        baseten_api_key=selection.api_key.get_secret_value(),
+        baseten_base_url=_PROVIDER_URLS[selection.name],
+        baseten_model=selection.model,
+        provider_name=selection.name,
+    )
 
 
 @router.get("/", response_model=RootResponse)
@@ -102,12 +124,10 @@ async def compile_mission_route(
             body.mission_text,
             scenario,
             mode=body.mode,
-            settings=get_settings(),
+            settings=_request_settings(body.provider),
         )
     except ProviderError as exc:
-        raise FieldWeaverError(
-            exc.status_code, exc.code, exc.message, exc.details
-        ) from exc
+        raise FieldWeaverError(exc.status_code, exc.code, exc.message, exc.details) from exc
 
     public = result.to_public()
     return MissionCompileResponse(
@@ -138,19 +158,22 @@ async def run_simulation_route(
             seed=body.seed,
             controller=body.controller,
             agent_mode=body.agent_mode,
-            settings=get_settings(),
+            settings=_request_settings(body.provider),
         )
     except ProviderError as exc:
-        raise FieldWeaverError(
-            exc.status_code, exc.code, exc.message, exc.details
-        ) from exc
+        raise FieldWeaverError(exc.status_code, exc.code, exc.message, exc.details) from exc
 
-    request.app.state.latest_run = outcome
+    if not get_settings().public_mode:
+        request.app.state.latest_run = outcome
     return SimulationRunResponse.model_validate(outcome.to_public(request.state.request_id))
 
 
 @router.get("/api/evaluations/latest", response_model=LatestEvaluationResponse)
 def latest_evaluation(request: Request) -> LatestEvaluationResponse:
+    if get_settings().public_mode:
+        raise FieldWeaverError(
+            404, "evaluation_not_available", "Shared latest-run history is disabled."
+        )
     outcome: RunOutcome | None = getattr(request.app.state, "latest_run", None)
     if outcome is None:
         raise FieldWeaverError(

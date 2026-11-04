@@ -18,7 +18,7 @@ const scorecardItems = [
   {
     label: "SECRET QUARANTINE",
     value: "Backend Environment",
-    desc: "The server reads BASETEN_API_KEY. Frontend source contains no public-key variable.",
+    desc: "Use a server environment key or enter a provider key for the current page session.",
     badge: "SERVER SIDE"
   },
   {
@@ -109,11 +109,12 @@ export default function SecurityPage() {
 
             <section className="docs-section">
               <p className="doc-kicker">02: SECRET HYGIENE</p>
-              <h2>Provider credentials stay on the backend.</h2>
+              <h2>Handle provider credentials carefully.</h2>
               <ul className="limit-list">
                 <li>Store the key in <code>BASETEN_API_KEY</code> in the backend environment or local root <code>.env</code>.</li>
                 <li>The root <code>.env</code> is ignored by Git. Keep the placeholder-only <code>.env.example</code> free of real credentials.</li>
-                <li>Never use <code>NEXT_PUBLIC_*</code> for provider secrets or place credentials in browser code, prompts, logs, screenshots, or test fixtures.</li>
+                <li>Keys entered in the app are held in page memory and sent to the backend for live requests. Close or clear the page to remove them; use HTTPS except on the local computer.</li>
+                <li>Never use <code>NEXT_PUBLIC_*</code> for provider secrets or put real credentials in source, prompts, logs, screenshots, or test fixtures.</li>
                 <li>Use a restricted local account for the key, rotate it if it is exposed, and review provider account access.</li>
               </ul>
             </section>

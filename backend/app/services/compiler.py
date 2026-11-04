@@ -7,7 +7,6 @@ Application-side validation is authoritative regardless of what the model says.
 from __future__ import annotations
 
 import json
-import math
 import re
 from dataclasses import dataclass, field
 from typing import Any, Literal
@@ -32,13 +31,14 @@ class CompilationResult:
     live_verified: bool
     warnings: list[str] = field(default_factory=list)
     usage: dict[str, int] = field(default_factory=dict)
+    provider_name: str = "baseten"
 
     def to_public(self) -> dict[str, Any]:
         return {
             "spec": self.spec,
             "provider": {
                 "mode": self.mode,
-                "name": "baseten" if self.mode == "live" else "mock",
+                "name": self.provider_name if self.mode == "live" else "mock",
                 "model": self.model,
                 "latency_ms": round(self.latency_ms, 1),
                 "live_verified": self.live_verified,
@@ -97,6 +97,28 @@ _UNSUPPORTED_PATTERNS: tuple[tuple[re.Pattern[str], str], ...] = (
 )
 
 
+def _check_requested_safety_constraints(mission_text: str, spec: MissionSpec) -> None:
+    """Reject recognizable numerical requests when a compiled limit is weaker."""
+    checks = (
+        (_SEPARATION_RE, spec.constraints.minimum_robot_separation, "minimum separation", True),
+        (_CLEARANCE_RE, spec.constraints.minimum_obstacle_clearance, "obstacle clearance", True),
+        (_SPEED_RE, spec.constraints.maximum_speed, "maximum speed", False),
+    )
+    for pattern, actual, label, is_minimum in checks:
+        match = pattern.search(mission_text)
+        if match is None:
+            continue
+        requested = float(match.group(1))
+        weaker = actual < requested - 1e-9 if is_minimum else actual > requested + 1e-9
+        if weaker:
+            raise ProviderError(
+                422,
+                "mission_constraint_not_met",
+                f"The requested {label} cannot be preserved within the compiled mission. "
+                "Revise the request; safety limits were not relaxed.",
+            )
+
+
 def compile_mock(mission_text: str, scenario: Scenario) -> CompilationResult:
     """Deterministic keyword compiler used when no live key is configured.
 
@@ -127,9 +149,7 @@ def compile_mock(mission_text: str, scenario: Scenario) -> CompilationResult:
     radius_match = _RADIUS_RE.search(mission_text)
     if radius_match:
         requested_radius = float(radius_match.group(1))
-        radius = _clamp(
-            requested_radius, limits.MIN_RING_RADIUS_M, limits.MAX_RING_RADIUS_M
-        )
+        radius = _clamp(requested_radius, limits.MIN_RING_RADIUS_M, limits.MAX_RING_RADIUS_M)
         if radius != requested_radius:
             warnings.append(
                 f"Ring radius {requested_radius:.2f} m is outside the supported envelope; "
@@ -160,9 +180,7 @@ def compile_mock(mission_text: str, scenario: Scenario) -> CompilationResult:
     separation_match = _SEPARATION_RE.search(mission_text)
     if separation_match:
         requested_separation = float(separation_match.group(1))
-        separation = _clamp(
-            requested_separation, limits.MIN_SEPARATION_M, limits.MAX_SEPARATION_M
-        )
+        separation = _clamp(requested_separation, limits.MIN_SEPARATION_M, limits.MAX_SEPARATION_M)
         if separation != requested_separation:
             warnings.append(
                 f"Separation {requested_separation:.2f} m was clamped to the safe envelope."
@@ -172,9 +190,7 @@ def compile_mock(mission_text: str, scenario: Scenario) -> CompilationResult:
     clearance_match = _CLEARANCE_RE.search(mission_text)
     if clearance_match:
         requested_clearance = float(clearance_match.group(1))
-        clearance = _clamp(
-            requested_clearance, limits.MIN_CLEARANCE_M, limits.MAX_CLEARANCE_M
-        )
+        clearance = _clamp(requested_clearance, limits.MIN_CLEARANCE_M, limits.MAX_CLEARANCE_M)
         if clearance != requested_clearance:
             warnings.append(
                 f"Obstacle clearance {requested_clearance:.2f} m was clamped to the safe envelope."
@@ -202,21 +218,6 @@ def compile_mock(mission_text: str, scenario: Scenario) -> CompilationResult:
             "Some requested capabilities are unsupported and were not included in the mission."
         )
 
-    count = int(payload["robot_count"])
-    radius = float(payload["formation"]["radius"])
-    separation = float(payload["constraints"]["minimum_robot_separation"])
-    slot_arc = 2.0 * radius * math.sin(math.pi / count)
-    max_separation = slot_arc * 0.9
-    if separation > max_separation:
-        payload["constraints"]["minimum_robot_separation"] = round(
-            max(limits.MIN_SEPARATION_M, max_separation), 3
-        )
-        _add_unique(
-            assumptions,
-            f"Separation reduced to fit the ring geometry (slot arc {slot_arc:.2f} m).",
-            7,
-        )
-
     payload["assumptions"] = assumptions[:8]
     payload["unsupported_requirements"] = unsupported
     if unsupported:
@@ -233,11 +234,10 @@ def compile_mock(mission_text: str, scenario: Scenario) -> CompilationResult:
             422,
             "mission_infeasible",
             "The requested mission cannot be expressed within the supported envelope.",
-            [
-                {"loc": list(error["loc"]), "msg": error["msg"]}
-                for error in exc.errors()
-            ],
+            [{"loc": list(error["loc"]), "msg": error["msg"]} for error in exc.errors()],
         ) from exc
+
+    _check_requested_safety_constraints(mission_text, spec)
 
     return CompilationResult(
         spec=spec,
@@ -326,6 +326,7 @@ async def compile_live(
     result = await client.chat(
         _live_messages(mission_text, scenario),
         temperature=0.1,
+        max_tokens=4096,
     )
     payload = extract_json_object(result.content)
     try:
@@ -335,11 +336,9 @@ async def compile_live(
             502,
             "model_output_invalid",
             "The live model returned a mission that failed strict schema validation.",
-            [
-                {"loc": list(error["loc"]), "msg": error["msg"]}
-                for error in exc.errors()[:8]
-            ],
+            [{"loc": list(error["loc"]), "msg": error["msg"]} for error in exc.errors()[:8]],
         ) from exc
+    _check_requested_safety_constraints(mission_text, spec)
     return CompilationResult(
         spec=spec,
         mode="live",
@@ -348,6 +347,7 @@ async def compile_live(
         live_verified=True,
         warnings=[],
         usage=result.usage,
+        provider_name=settings.provider_name,
     )
 
 

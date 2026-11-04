@@ -130,7 +130,7 @@ provide a more useful reproducible spread estimate while keeping the local suite
 one minute on the verified development environment. This sample does not establish
 broad robustness.
 
-## D014: Let Baseten apply the documented completion budget
+## D014: Let Baseten apply the documented completion budget (superseded by D016)
 
 Decision: omit `max_tokens` for default Muse Spark requests and preserve an explicit
 override only for callers that need one. If the provider reports an empty final answer
@@ -170,3 +170,16 @@ simulation authority. Blender remains an option for authoring exported assets. M
 and Isaac Sim are better justified by future contact-dynamics or sensor-realism goals,
 which require their own implementation and validation. Production browser checks
 confirmed WebGL2 rendering, camera controls, the 2D view, and context-loss fallback.
+
+## D016: Bound verified live inference and retain safe failures
+
+Decision: set a 4096-token cap for mission and agent completions. Include the
+deterministically computed direct-path obstruction in agent event observations and
+leave the safety filter authoritative. Apply a controller-side closing-velocity
+projection near neighboring robots without changing the safety envelope or benchmark
+success criteria. SAM 3.1 is outside the build scope.
+
+Evidence: November 4 live mission and dynamic-obstacle agent trials each succeeded;
+an earlier constrained live-agent trial exhausted its decision budget. The fixed
+evaluation achieved 40/70 quadratic task successes, including 30 retained expected
+failures. These isolated checks are not a formal safety or model reliability proof.

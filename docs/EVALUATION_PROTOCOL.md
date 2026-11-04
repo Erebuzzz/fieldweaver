@@ -23,7 +23,7 @@ The script computes success counts, termination reasons, and per-metric mean, me
 sample standard deviation, and non-null sample count from each run's evaluator output.
 Obstacle-clearance metrics are null for scenes without obstacles, so their contributing
 sample count is lower. No success-only filter is applied. The JSON report includes all
-42 runs and the configuration details.
+140 runs and the configuration details.
 
 The raw report is written to `artifacts/evaluation_report.json`; `.gitignore` excludes
 that generated output. The same report is copied to
@@ -58,3 +58,17 @@ separate live check is required before making live latency or model-performance 
 
 The tests in `backend/tests/test_evaluator.py` use hand-checkable fixture runs to verify
 metric calculations and preserve specific termination causes.
+
+## Held-out nominal scenarios
+
+A separate evaluation uses seeds 52 through 61 for each of `open_field`, `noisy_open`,
+`restricted_corridor`, and `disturbed_corridor`. These seeds are disjoint from the fixed
+paired report. It uses the quadratic controller and deterministic mock agent; it is not
+a paired baseline comparison and makes no live inference calls.
+
+```powershell
+.\backend\.venv\Scripts\python.exe scripts\run_heldout_evaluation.py
+```
+
+The generated `artifacts/heldout_evaluation_report.json` records each trial and is
+ignored by Git. The held-out sample is a limited test, not a general safety guarantee.
