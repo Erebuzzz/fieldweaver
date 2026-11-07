@@ -209,6 +209,77 @@ export default function Home() {
     }
   }
 
+  async function switchToMockAndCompile() {
+    setProviderMode("mock");
+    setAgentMode("mock");
+    setActionError(null);
+    setBusy("compile");
+    setResult(null);
+    setPlaying(false);
+    try {
+      const text = missionText.trim() || EXAMPLE_MISSION;
+      const response = await apiRequest<CompileResponse>("/api/missions/compile", {
+        mission_text: text,
+        scenario_id: scenarioId,
+        mode: "mock",
+      });
+      setCompiled({ result: response, scenarioId, missionText: text });
+      setApproved(true);
+    } catch (reason) {
+      setCompiled(null);
+      setActionError(reason instanceof Error ? reason.message : "Mock compilation failed.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function loadSampleSimulation() {
+    setBusy("run");
+    setActionError(null);
+    setPlaying(false);
+    try {
+      const text = missionText.trim() || EXAMPLE_MISSION;
+      const compileRes = await apiRequest<CompileResponse>("/api/missions/compile", {
+        mission_text: text,
+        scenario_id: scenarioId,
+        mode: "mock",
+      });
+      setCompiled({ result: compileRes, scenarioId, missionText: text });
+      setApproved(true);
+
+      const parsedSeed = Number(seed);
+      const runSeed = Number.isInteger(parsedSeed) && parsedSeed >= 0 ? parsedSeed : 42;
+
+      const runRes = await apiRequest<RunResult>("/api/simulations/run", {
+        mission: compileRes.spec,
+        scenario_id: scenarioId,
+        seed: runSeed,
+        controller: "quadratic",
+        agent_mode: "mock",
+      });
+      setResult(runRes);
+      setWorkspaceView("arena");
+      setFrameIndex(0);
+      setPlaying(runRes.frames.length > 1);
+    } catch (reason) {
+      setActionError(reason instanceof Error ? reason.message : "Failed to load sample simulation.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  function openByokSettings() {
+    const details = document.querySelector<HTMLDetailsElement>(".advanced-settings");
+    if (details) {
+      details.open = true;
+      details.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+    const keyInput = document.getElementById("provider-key");
+    if (keyInput) {
+      keyInput.focus();
+    }
+  }
+
   function selectScenario(nextId: string) {
     setScenarioId(nextId);
     invalidateMission();
@@ -267,13 +338,44 @@ export default function Home() {
         </div>
       ) : null}
       {actionError ? (
-        <div className="alert alert-error" role="alert">
-          <strong>Request not completed</strong>
-          <span>{actionError}</span>
-          <button className="alert-dismiss" onClick={() => setActionError(null)} type="button" aria-label="Dismiss error">
-            ×
-          </button>
-        </div>
+        actionError.toLowerCase().includes("provider") ||
+        actionError.includes("400") ||
+        actionError.toLowerCase().includes("deactivated") ||
+        actionError.includes("502") ? (
+          <div className="alert alert-error alert-provider-guidance" role="alert">
+            <div className="alert-header">
+              <strong>Provider Notice: Live Model Unavailable</strong>
+              <button className="alert-dismiss" onClick={() => setActionError(null)} type="button" aria-label="Dismiss error">
+                ×
+              </button>
+            </div>
+            <p className="alert-message">{actionError}</p>
+            <div className="provider-guidance-content">
+              <p className="provider-guidance-note">
+                The shared hackathon Baseten deployment is currently inactive or unreachable. You can continue testing in three ways:
+              </p>
+              <div className="provider-guidance-actions">
+                <button className="provider-guidance-btn btn-primary-action" type="button" onClick={switchToMockAndCompile}>
+                  Switch to Offline Mock Mode
+                </button>
+                <button className="provider-guidance-btn" type="button" onClick={loadSampleSimulation}>
+                  Load Sample Simulation
+                </button>
+                <button className="provider-guidance-btn" type="button" onClick={openByokSettings}>
+                  Use Your Own API Key (BYOK)
+                </button>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="alert alert-error" role="alert">
+            <strong>Request not completed</strong>
+            <span>{actionError}</span>
+            <button className="alert-dismiss" onClick={() => setActionError(null)} type="button" aria-label="Dismiss error">
+              ×
+            </button>
+          </div>
+        )
       ) : null}
 
       <nav className="workspace-views" aria-label="Workspace views">
@@ -511,11 +613,22 @@ export default function Home() {
                 <h2>Arena</h2>
                 <p>{selectedScenario?.name ?? "No arena selected"} · {selectedScenario?.arena.width_m ?? 10} × {selectedScenario?.arena.height_m ?? 10} m</p>
               </div>
-              {result ? (
-                <span className={`result-badge ${result.evaluation.success ? "success" : "failure"}`}>
-                  {result.evaluation.success ? "SUCCESS" : result.evaluation.failure_reason?.replaceAll("_", " ").toUpperCase() ?? "STOPPED"}
-                </span>
-              ) : <span className="arena-idle">READY</span>}
+              <div className="arena-title-actions">
+                <button
+                  className="sample-run-btn"
+                  type="button"
+                  onClick={loadSampleSimulation}
+                  disabled={busy !== null}
+                  title="Run a deterministic sample simulation and view the 3D tactical digital twin"
+                >
+                  Load Sample Run
+                </button>
+                {result ? (
+                  <span className={`result-badge ${result.evaluation.success ? "success" : "failure"}`}>
+                    {result.evaluation.success ? "SUCCESS" : result.evaluation.failure_reason?.replaceAll("_", " ").toUpperCase() ?? "STOPPED"}
+                  </span>
+                ) : <span className="arena-idle">READY</span>}
+              </div>
             </div>
           </div>
 

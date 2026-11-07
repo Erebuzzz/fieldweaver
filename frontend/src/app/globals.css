@@ -921,6 +921,117 @@ a:focus-visible {
   color: var(--text);
 }
 
+.alert-provider-guidance {
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border-color: rgba(245, 158, 11, 0.4);
+  background: rgba(245, 158, 11, 0.05);
+  border-left: 3px solid var(--amber);
+}
+
+.alert-provider-guidance .alert-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.alert-provider-guidance .alert-message {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: #fca5a5;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(248, 113, 113, 0.2);
+  word-break: break-word;
+  width: 100%;
+}
+
+.provider-guidance-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.provider-guidance-note {
+  margin: 0;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.provider-guidance-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.provider-guidance-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 4px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.provider-guidance-btn:hover {
+  background: var(--surface-hover);
+  border-color: var(--accent);
+}
+
+.provider-guidance-btn.btn-primary-action {
+  background: rgba(56, 189, 248, 0.14);
+  border-color: rgba(56, 189, 248, 0.45);
+  color: #38bdf8;
+}
+
+.provider-guidance-btn.btn-primary-action:hover {
+  background: rgba(56, 189, 248, 0.24);
+}
+
+.arena-title-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sample-run-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  background: rgba(56, 189, 248, 0.08);
+  color: #38bdf8;
+  font-family: var(--mono);
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sample-run-btn:hover:not(:disabled) {
+  background: rgba(56, 189, 248, 0.2);
+  border-color: #38bdf8;
+}
+
+.sample-run-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
 /* Tactical Arena */
 
 .arena-heading {

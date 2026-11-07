@@ -346,3 +346,10 @@ No deploy or hackathon submission occurred.
 - Render deployed commit `edd68cf` and the public Cloudflare frontend was updated. One actual live Baseten compile returned HTTP 200 and increased the D1 counter from 1 to 2. A deliberately invalid BYOK Baseten request returned `provider_unauthorized`, did not echo the test key, and left the counter at 2. The provider key used in this negative test was not a credential.
 - The public browser displayed the 250-request limit and matched agent-off evaluation and completed an offline agent-off run with nominal convergence. Cloudflare D1 boundary testing on a synthetic date accepted request 250 and rejected request 251; an unauthenticated counter request was rejected. UTC day resets do not imply a dollar spend cap. Any successful BYOK model call still requires a valid user key and remains unverified for Meta and Fireworks.
 - The backend 124-test suite, Ruff and frontend production build passed. The backend has no user authentication, its rate limiter is process-local, and the daily shared-key counter enforces a request count rather than a spend guarantee. Render Free may sleep after inactivity; no keep-alive was configured.
+
+## 2026-11-05 README setup guidance
+
+- Updated README with hosted walkthrough, local setup, provider keys, troubleshooting, and evaluation caveats; updated security guidance.
+- Local backend started with documented uvicorn command. scripts/smoke_test.py initially failed with connection refused when no backend was running, then passed health, scenarios, mock compile, seeded run, and latest evaluation after startup. No live model request was made.
+- git diff --check passed for README.md and docs/SECURITY.md. No push or deployment performed. Meta and Fireworks live credentials remain unverified.
+

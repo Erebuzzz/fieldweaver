@@ -40,3 +40,10 @@ artifacts/
 Thumbs.db
 .vscode/
 .idea/
+
+.agents/
+AGENTS.md
+RENDER_DEPLOYMENT.md
+FieldWeaver_Multiphase_Agentic_Build_Prompt.md
+PHASE_STATUS.md
+docs/BUILD_STATE.md

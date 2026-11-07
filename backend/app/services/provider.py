@@ -130,10 +130,25 @@ class BasetenClient:
                         "The live model endpoint rate-limited the request.",
                     )
                 if response.status_code >= 400:
+                    upstream_msg = None
+                    try:
+                        err_json = response.json()
+                        if isinstance(err_json, dict):
+                            upstream_msg = err_json.get("error") or err_json.get("message")
+                    except Exception:
+                        pass
+                    if not upstream_msg and response.text:
+                        upstream_msg = response.text[:200].strip()
+
+                    error_text = f"The live model endpoint returned HTTP {response.status_code}."
+                    if upstream_msg:
+                        error_text += f" Upstream message: {upstream_msg}"
+
                     raise ProviderError(
                         502,
                         "provider_error",
-                        f"The live model endpoint returned HTTP {response.status_code}.",
+                        error_text,
+                        details={"status": response.status_code, "upstream": upstream_msg},
                     )
 
                 try:
